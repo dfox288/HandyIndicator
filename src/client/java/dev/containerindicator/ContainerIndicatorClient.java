@@ -17,6 +17,7 @@ public class ContainerIndicatorClient implements ClientModInitializer {
         BlockRenderLayerMap.putBlock(Blocks.FURNACE, ChunkSectionLayer.CUTOUT);
         BlockRenderLayerMap.putBlock(Blocks.BLAST_FURNACE, ChunkSectionLayer.CUTOUT);
         BlockRenderLayerMap.putBlock(Blocks.SMOKER, ChunkSectionLayer.CUTOUT);
+        BlockRenderLayerMap.putBlock(Blocks.DECORATED_POT, ChunkSectionLayer.CUTOUT);
 
         ColorProviderRegistry.BLOCK.register(
                 (state, world, pos, tintIndex) -> {
@@ -26,7 +27,8 @@ public class ContainerIndicatorClient implements ClientModInitializer {
                 },
                 Blocks.HOPPER, Blocks.DROPPER, Blocks.DISPENSER,
                 Blocks.BARREL, Blocks.CRAFTER,
-                Blocks.FURNACE, Blocks.BLAST_FURNACE, Blocks.SMOKER
+                Blocks.FURNACE, Blocks.BLAST_FURNACE, Blocks.SMOKER,
+                Blocks.DECORATED_POT
         );
     }
 }

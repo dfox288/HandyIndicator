@@ -40,6 +40,7 @@ public class ContainerIndicator implements ModInitializer {
         if (block == Blocks.FURNACE) return config.furnaceEnabled;
         if (block == Blocks.BLAST_FURNACE) return config.blastFurnaceEnabled;
         if (block == Blocks.SMOKER) return config.smokerEnabled;
+        if (block == Blocks.DECORATED_POT) return config.decoratedPotEnabled;
 
         return true;
     }

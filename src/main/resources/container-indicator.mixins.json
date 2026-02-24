@@ -13,7 +13,9 @@
         "BarrelBlockEntityMixin",
         "CrafterBlockEntityMixin",
         "AbstractFurnaceBlockEntityMixin",
-        "BaseContainerBlockEntityMixin"
+        "BaseContainerBlockEntityMixin",
+        "DecoratedPotBlockMixin",
+        "DecoratedPotBlockEntityMixin"
     ],
     "injectors": {
         "defaultRequire": 1

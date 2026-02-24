@@ -30,6 +30,7 @@ public class ContainerIndicatorConfig {
     public boolean furnaceEnabled = true;
     public boolean blastFurnaceEnabled = true;
     public boolean smokerEnabled = true;
+    public boolean decoratedPotEnabled = true;
 
     public static ContainerIndicatorConfig instance() {
         return instance;

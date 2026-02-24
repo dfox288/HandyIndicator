@@ -19,11 +19,11 @@
         },
         {
             "when": { "has_items": "true", "type": "left", "facing": "west" },
-            "apply": { "model": "container_indicator:block/indicator_overlay_chest_double", "y": 90 }
+            "apply": { "model": "container_indicator:block/indicator_overlay_chest_double", "y": 270 }
         },
         {
             "when": { "has_items": "true", "type": "left", "facing": "east" },
-            "apply": { "model": "container_indicator:block/indicator_overlay_chest_double", "y": 270 }
+            "apply": { "model": "container_indicator:block/indicator_overlay_chest_double", "y": 90 }
         }
     ]
 }

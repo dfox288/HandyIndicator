@@ -43,7 +43,7 @@
             },
             "apply": {
                 "model": "container_indicator:block/indicator_overlay_chest_double",
-                "y": 90
+                "y": 270
             }
         },
         {
@@ -54,7 +54,7 @@
             },
             "apply": {
                 "model": "container_indicator:block/indicator_overlay_chest_double",
-                "y": 270
+                "y": 90
             }
         }
     ]

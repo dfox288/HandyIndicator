@@ -1,0 +1,71 @@
+{
+    "textures": {
+        "indicator": "container_indicator:block/indicator"
+    },
+    "elements": [
+        {
+            "comment": "Top rim - north edge (spans both halves)",
+            "from": [1, 9.01, 1],
+            "to": [31, 9.02, 2],
+            "faces": {
+                "up": {"texture": "#indicator", "tintindex": 0}
+            }
+        },
+        {
+            "comment": "Top rim - south edge (spans both halves)",
+            "from": [1, 9.01, 14],
+            "to": [31, 9.02, 15],
+            "faces": {
+                "up": {"texture": "#indicator", "tintindex": 0}
+            }
+        },
+        {
+            "comment": "Top rim - west edge (this block's outer edge)",
+            "from": [1, 9.01, 2],
+            "to": [2, 9.02, 14],
+            "faces": {
+                "up": {"texture": "#indicator", "tintindex": 0}
+            }
+        },
+        {
+            "comment": "Top rim - east edge (neighbor block's outer edge)",
+            "from": [30, 9.01, 2],
+            "to": [31, 9.02, 14],
+            "faces": {
+                "up": {"texture": "#indicator", "tintindex": 0}
+            }
+        },
+        {
+            "comment": "North side strip (spans both halves)",
+            "from": [1, 8, 0.99],
+            "to": [31, 9, 0.999],
+            "faces": {
+                "north": {"texture": "#indicator", "tintindex": 0}
+            }
+        },
+        {
+            "comment": "South side strip (spans both halves)",
+            "from": [1, 8, 15.001],
+            "to": [31, 9, 15.01],
+            "faces": {
+                "south": {"texture": "#indicator", "tintindex": 0}
+            }
+        },
+        {
+            "comment": "West side strip (this block's outer edge)",
+            "from": [0.99, 8, 1],
+            "to": [0.999, 9, 15],
+            "faces": {
+                "west": {"texture": "#indicator", "tintindex": 0}
+            }
+        },
+        {
+            "comment": "East side strip (neighbor block's outer edge)",
+            "from": [31.001, 8, 1],
+            "to": [31.01, 9, 15],
+            "faces": {
+                "east": {"texture": "#indicator", "tintindex": 0}
+            }
+        }
+    ]
+}

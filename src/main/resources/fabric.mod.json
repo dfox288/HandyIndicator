@@ -1,0 +1,39 @@
+{
+    "schemaVersion": 1,
+    "id": "container-indicator",
+    "version": "${version}",
+    "name": "Handy Indicator",
+    "description": "Shows a subtle visual indicator on container blocks (hoppers, dispensers, droppers, barrels, crafters, furnaces) when they contain items. Fully configurable with per-block toggles and custom indicator colors via YACL.",
+    "authors": ["D.Fox"],
+    "contact": {
+        "homepage": "https://github.com/dfox288/HandyIndicator",
+        "sources": "https://github.com/dfox288/HandyIndicator",
+        "issues": "https://github.com/dfox288/HandyIndicator/issues"
+    },
+    "license": "MIT",
+    "environment": "*",
+    "entrypoints": {
+        "main": [
+            "dev.containerindicator.ContainerIndicator"
+        ],
+        "client": [
+            "dev.containerindicator.ContainerIndicatorClient"
+        ],
+        "modmenu": [
+            "dev.containerindicator.ContainerIndicatorModMenu"
+        ]
+    },
+    "mixins": [
+        "container-indicator.mixins.json"
+    ],
+    "depends": {
+        "fabricloader": ">=0.18.1",
+        "minecraft": "~1.21.11",
+        "java": ">=21",
+        "fabric-api": "*"
+    },
+    "suggests": {
+        "modmenu": "*",
+        "yet_another_config_lib_v3": ">=3.8.1"
+    }
+}

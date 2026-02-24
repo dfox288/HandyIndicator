@@ -1,0 +1,21 @@
+{
+    "required": true,
+    "package": "dev.containerindicator.mixin",
+    "compatibilityLevel": "JAVA_21",
+    "mixins": [
+        "HopperBlockMixin",
+        "DispenserBlockMixin",
+        "BarrelBlockMixin",
+        "CrafterBlockMixin",
+        "AbstractFurnaceBlockMixin",
+        "HopperBlockEntityMixin",
+        "DispenserBlockEntityMixin",
+        "BarrelBlockEntityMixin",
+        "CrafterBlockEntityMixin",
+        "AbstractFurnaceBlockEntityMixin",
+        "BaseContainerBlockEntityMixin"
+    ],
+    "injectors": {
+        "defaultRequire": 1
+    }
+}

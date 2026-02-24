@@ -1,0 +1,71 @@
+{
+    "textures": {
+        "indicator": "container_indicator:block/indicator"
+    },
+    "elements": [
+        {
+            "comment": "Bottom border - north edge",
+            "from": [0, -0.02, 0],
+            "to": [16, -0.01, 1],
+            "faces": {
+                "down": {"texture": "#indicator", "cullface": "down", "tintindex": 1}
+            }
+        },
+        {
+            "comment": "Bottom border - south edge",
+            "from": [0, -0.02, 15],
+            "to": [16, -0.01, 16],
+            "faces": {
+                "down": {"texture": "#indicator", "cullface": "down", "tintindex": 1}
+            }
+        },
+        {
+            "comment": "Bottom border - west edge",
+            "from": [0, -0.02, 1],
+            "to": [1, -0.01, 15],
+            "faces": {
+                "down": {"texture": "#indicator", "cullface": "down", "tintindex": 1}
+            }
+        },
+        {
+            "comment": "Bottom border - east edge",
+            "from": [15, -0.02, 1],
+            "to": [16, -0.01, 15],
+            "faces": {
+                "down": {"texture": "#indicator", "cullface": "down", "tintindex": 1}
+            }
+        },
+        {
+            "comment": "North side - bottom 1px strip",
+            "from": [0, 0, -0.01],
+            "to": [16, 1, -0.001],
+            "faces": {
+                "north": {"texture": "#indicator", "cullface": "north", "tintindex": 1}
+            }
+        },
+        {
+            "comment": "South side - bottom 1px strip",
+            "from": [0, 0, 16.001],
+            "to": [16, 1, 16.01],
+            "faces": {
+                "south": {"texture": "#indicator", "cullface": "south", "tintindex": 1}
+            }
+        },
+        {
+            "comment": "West side - bottom 1px strip",
+            "from": [-0.01, 0, 0],
+            "to": [-0.001, 1, 16],
+            "faces": {
+                "west": {"texture": "#indicator", "cullface": "west", "tintindex": 1}
+            }
+        },
+        {
+            "comment": "East side - bottom 1px strip",
+            "from": [16.001, 0, 0],
+            "to": [16.01, 1, 16],
+            "faces": {
+                "east": {"texture": "#indicator", "cullface": "east", "tintindex": 1}
+            }
+        }
+    ]
+}

@@ -1,0 +1,560 @@
+{
+    "multipart": [
+        {
+            "when": {
+                "crafting": "false",
+                "orientation": "down_east",
+                "triggered": "false"
+            },
+            "apply": {
+                "model": "minecraft:block/crafter",
+                "x": 90,
+                "y": 90
+            }
+        },
+        {
+            "when": {
+                "crafting": "false",
+                "orientation": "down_east",
+                "triggered": "true"
+            },
+            "apply": {
+                "model": "minecraft:block/crafter_triggered",
+                "x": 90,
+                "y": 90
+            }
+        },
+        {
+            "when": {
+                "crafting": "false",
+                "orientation": "down_north",
+                "triggered": "false"
+            },
+            "apply": {
+                "model": "minecraft:block/crafter",
+                "x": 90
+            }
+        },
+        {
+            "when": {
+                "crafting": "false",
+                "orientation": "down_north",
+                "triggered": "true"
+            },
+            "apply": {
+                "model": "minecraft:block/crafter_triggered",
+                "x": 90
+            }
+        },
+        {
+            "when": {
+                "crafting": "false",
+                "orientation": "down_south",
+                "triggered": "false"
+            },
+            "apply": {
+                "model": "minecraft:block/crafter",
+                "x": 90,
+                "y": 180
+            }
+        },
+        {
+            "when": {
+                "crafting": "false",
+                "orientation": "down_south",
+                "triggered": "true"
+            },
+            "apply": {
+                "model": "minecraft:block/crafter_triggered",
+                "x": 90,
+                "y": 180
+            }
+        },
+        {
+            "when": {
+                "crafting": "false",
+                "orientation": "down_west",
+                "triggered": "false"
+            },
+            "apply": {
+                "model": "minecraft:block/crafter",
+                "x": 90,
+                "y": 270
+            }
+        },
+        {
+            "when": {
+                "crafting": "false",
+                "orientation": "down_west",
+                "triggered": "true"
+            },
+            "apply": {
+                "model": "minecraft:block/crafter_triggered",
+                "x": 90,
+                "y": 270
+            }
+        },
+        {
+            "when": {
+                "crafting": "false",
+                "orientation": "east_up",
+                "triggered": "false"
+            },
+            "apply": {
+                "model": "minecraft:block/crafter",
+                "y": 90
+            }
+        },
+        {
+            "when": {
+                "crafting": "false",
+                "orientation": "east_up",
+                "triggered": "true"
+            },
+            "apply": {
+                "model": "minecraft:block/crafter_triggered",
+                "y": 90
+            }
+        },
+        {
+            "when": {
+                "crafting": "false",
+                "orientation": "north_up",
+                "triggered": "false"
+            },
+            "apply": {
+                "model": "minecraft:block/crafter"
+            }
+        },
+        {
+            "when": {
+                "crafting": "false",
+                "orientation": "north_up",
+                "triggered": "true"
+            },
+            "apply": {
+                "model": "minecraft:block/crafter_triggered"
+            }
+        },
+        {
+            "when": {
+                "crafting": "false",
+                "orientation": "south_up",
+                "triggered": "false"
+            },
+            "apply": {
+                "model": "minecraft:block/crafter",
+                "y": 180
+            }
+        },
+        {
+            "when": {
+                "crafting": "false",
+                "orientation": "south_up",
+                "triggered": "true"
+            },
+            "apply": {
+                "model": "minecraft:block/crafter_triggered",
+                "y": 180
+            }
+        },
+        {
+            "when": {
+                "crafting": "false",
+                "orientation": "up_east",
+                "triggered": "false"
+            },
+            "apply": {
+                "model": "minecraft:block/crafter",
+                "x": 270,
+                "y": 270
+            }
+        },
+        {
+            "when": {
+                "crafting": "false",
+                "orientation": "up_east",
+                "triggered": "true"
+            },
+            "apply": {
+                "model": "minecraft:block/crafter_triggered",
+                "x": 270,
+                "y": 270
+            }
+        },
+        {
+            "when": {
+                "crafting": "false",
+                "orientation": "up_north",
+                "triggered": "false"
+            },
+            "apply": {
+                "model": "minecraft:block/crafter",
+                "x": 270,
+                "y": 180
+            }
+        },
+        {
+            "when": {
+                "crafting": "false",
+                "orientation": "up_north",
+                "triggered": "true"
+            },
+            "apply": {
+                "model": "minecraft:block/crafter_triggered",
+                "x": 270,
+                "y": 180
+            }
+        },
+        {
+            "when": {
+                "crafting": "false",
+                "orientation": "up_south",
+                "triggered": "false"
+            },
+            "apply": {
+                "model": "minecraft:block/crafter",
+                "x": 270
+            }
+        },
+        {
+            "when": {
+                "crafting": "false",
+                "orientation": "up_south",
+                "triggered": "true"
+            },
+            "apply": {
+                "model": "minecraft:block/crafter_triggered",
+                "x": 270
+            }
+        },
+        {
+            "when": {
+                "crafting": "false",
+                "orientation": "up_west",
+                "triggered": "false"
+            },
+            "apply": {
+                "model": "minecraft:block/crafter",
+                "x": 270,
+                "y": 90
+            }
+        },
+        {
+            "when": {
+                "crafting": "false",
+                "orientation": "up_west",
+                "triggered": "true"
+            },
+            "apply": {
+                "model": "minecraft:block/crafter_triggered",
+                "x": 270,
+                "y": 90
+            }
+        },
+        {
+            "when": {
+                "crafting": "false",
+                "orientation": "west_up",
+                "triggered": "false"
+            },
+            "apply": {
+                "model": "minecraft:block/crafter",
+                "y": 270
+            }
+        },
+        {
+            "when": {
+                "crafting": "false",
+                "orientation": "west_up",
+                "triggered": "true"
+            },
+            "apply": {
+                "model": "minecraft:block/crafter_triggered",
+                "y": 270
+            }
+        },
+        {
+            "when": {
+                "crafting": "true",
+                "orientation": "down_east",
+                "triggered": "false"
+            },
+            "apply": {
+                "model": "minecraft:block/crafter_crafting",
+                "x": 90,
+                "y": 90
+            }
+        },
+        {
+            "when": {
+                "crafting": "true",
+                "orientation": "down_east",
+                "triggered": "true"
+            },
+            "apply": {
+                "model": "minecraft:block/crafter_crafting_triggered",
+                "x": 90,
+                "y": 90
+            }
+        },
+        {
+            "when": {
+                "crafting": "true",
+                "orientation": "down_north",
+                "triggered": "false"
+            },
+            "apply": {
+                "model": "minecraft:block/crafter_crafting",
+                "x": 90
+            }
+        },
+        {
+            "when": {
+                "crafting": "true",
+                "orientation": "down_north",
+                "triggered": "true"
+            },
+            "apply": {
+                "model": "minecraft:block/crafter_crafting_triggered",
+                "x": 90
+            }
+        },
+        {
+            "when": {
+                "crafting": "true",
+                "orientation": "down_south",
+                "triggered": "false"
+            },
+            "apply": {
+                "model": "minecraft:block/crafter_crafting",
+                "x": 90,
+                "y": 180
+            }
+        },
+        {
+            "when": {
+                "crafting": "true",
+                "orientation": "down_south",
+                "triggered": "true"
+            },
+            "apply": {
+                "model": "minecraft:block/crafter_crafting_triggered",
+                "x": 90,
+                "y": 180
+            }
+        },
+        {
+            "when": {
+                "crafting": "true",
+                "orientation": "down_west",
+                "triggered": "false"
+            },
+            "apply": {
+                "model": "minecraft:block/crafter_crafting",
+                "x": 90,
+                "y": 270
+            }
+        },
+        {
+            "when": {
+                "crafting": "true",
+                "orientation": "down_west",
+                "triggered": "true"
+            },
+            "apply": {
+                "model": "minecraft:block/crafter_crafting_triggered",
+                "x": 90,
+                "y": 270
+            }
+        },
+        {
+            "when": {
+                "crafting": "true",
+                "orientation": "east_up",
+                "triggered": "false"
+            },
+            "apply": {
+                "model": "minecraft:block/crafter_crafting",
+                "y": 90
+            }
+        },
+        {
+            "when": {
+                "crafting": "true",
+                "orientation": "east_up",
+                "triggered": "true"
+            },
+            "apply": {
+                "model": "minecraft:block/crafter_crafting_triggered",
+                "y": 90
+            }
+        },
+        {
+            "when": {
+                "crafting": "true",
+                "orientation": "north_up",
+                "triggered": "false"
+            },
+            "apply": {
+                "model": "minecraft:block/crafter_crafting"
+            }
+        },
+        {
+            "when": {
+                "crafting": "true",
+                "orientation": "north_up",
+                "triggered": "true"
+            },
+            "apply": {
+                "model": "minecraft:block/crafter_crafting_triggered"
+            }
+        },
+        {
+            "when": {
+                "crafting": "true",
+                "orientation": "south_up",
+                "triggered": "false"
+            },
+            "apply": {
+                "model": "minecraft:block/crafter_crafting",
+                "y": 180
+            }
+        },
+        {
+            "when": {
+                "crafting": "true",
+                "orientation": "south_up",
+                "triggered": "true"
+            },
+            "apply": {
+                "model": "minecraft:block/crafter_crafting_triggered",
+                "y": 180
+            }
+        },
+        {
+            "when": {
+                "crafting": "true",
+                "orientation": "up_east",
+                "triggered": "false"
+            },
+            "apply": {
+                "model": "minecraft:block/crafter_crafting",
+                "x": 270,
+                "y": 270
+            }
+        },
+        {
+            "when": {
+                "crafting": "true",
+                "orientation": "up_east",
+                "triggered": "true"
+            },
+            "apply": {
+                "model": "minecraft:block/crafter_crafting_triggered",
+                "x": 270,
+                "y": 270
+            }
+        },
+        {
+            "when": {
+                "crafting": "true",
+                "orientation": "up_north",
+                "triggered": "false"
+            },
+            "apply": {
+                "model": "minecraft:block/crafter_crafting",
+                "x": 270,
+                "y": 180
+            }
+        },
+        {
+            "when": {
+                "crafting": "true",
+                "orientation": "up_north",
+                "triggered": "true"
+            },
+            "apply": {
+                "model": "minecraft:block/crafter_crafting_triggered",
+                "x": 270,
+                "y": 180
+            }
+        },
+        {
+            "when": {
+                "crafting": "true",
+                "orientation": "up_south",
+                "triggered": "false"
+            },
+            "apply": {
+                "model": "minecraft:block/crafter_crafting",
+                "x": 270
+            }
+        },
+        {
+            "when": {
+                "crafting": "true",
+                "orientation": "up_south",
+                "triggered": "true"
+            },
+            "apply": {
+                "model": "minecraft:block/crafter_crafting_triggered",
+                "x": 270
+            }
+        },
+        {
+            "when": {
+                "crafting": "true",
+                "orientation": "up_west",
+                "triggered": "false"
+            },
+            "apply": {
+                "model": "minecraft:block/crafter_crafting",
+                "x": 270,
+                "y": 90
+            }
+        },
+        {
+            "when": {
+                "crafting": "true",
+                "orientation": "up_west",
+                "triggered": "true"
+            },
+            "apply": {
+                "model": "minecraft:block/crafter_crafting_triggered",
+                "x": 270,
+                "y": 90
+            }
+        },
+        {
+            "when": {
+                "crafting": "true",
+                "orientation": "west_up",
+                "triggered": "false"
+            },
+            "apply": {
+                "model": "minecraft:block/crafter_crafting",
+                "y": 270
+            }
+        },
+        {
+            "when": {
+                "crafting": "true",
+                "orientation": "west_up",
+                "triggered": "true"
+            },
+            "apply": {
+                "model": "minecraft:block/crafter_crafting_triggered",
+                "y": 270
+            }
+        },
+        {
+            "when": {
+                "has_items": "true"
+            },
+            "apply": {
+                "model": "container_indicator:block/indicator_overlay"
+            }
+        }
+    ]
+}

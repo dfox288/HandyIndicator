@@ -31,6 +31,9 @@ public class ContainerIndicatorConfig {
     public boolean blastFurnaceEnabled = true;
     public boolean smokerEnabled = true;
     public boolean decoratedPotEnabled = true;
+    public boolean chestEnabled = true;
+    public boolean trappedChestEnabled = true;
+    public boolean copperChestEnabled = true;
 
     public static ContainerIndicatorConfig instance() {
         return instance;

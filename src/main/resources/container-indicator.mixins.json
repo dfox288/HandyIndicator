@@ -15,7 +15,9 @@
         "AbstractFurnaceBlockEntityMixin",
         "BaseContainerBlockEntityMixin",
         "DecoratedPotBlockMixin",
-        "DecoratedPotBlockEntityMixin"
+        "DecoratedPotBlockEntityMixin",
+        "ChestBlockMixin",
+        "ChestBlockEntityMixin"
     ],
     "injectors": {
         "defaultRequire": 1

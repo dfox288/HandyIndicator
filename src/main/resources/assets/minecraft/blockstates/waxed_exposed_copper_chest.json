@@ -1,0 +1,17 @@
+{
+    "multipart": [
+        {
+            "apply": {
+                "model": "minecraft:block/waxed_exposed_copper_chest"
+            }
+        },
+        {
+            "when": {
+                "has_items": "true"
+            },
+            "apply": {
+                "model": "container_indicator:block/indicator_overlay"
+            }
+        }
+    ]
+}

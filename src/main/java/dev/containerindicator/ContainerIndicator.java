@@ -1,8 +1,10 @@
 package dev.containerindicator;
 
 import net.fabricmc.api.ModInitializer;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,6 +43,13 @@ public class ContainerIndicator implements ModInitializer {
         if (block == Blocks.BLAST_FURNACE) return config.blastFurnaceEnabled;
         if (block == Blocks.SMOKER) return config.smokerEnabled;
         if (block == Blocks.DECORATED_POT) return config.decoratedPotEnabled;
+        if (block == Blocks.CHEST) return config.chestEnabled;
+        if (block == Blocks.TRAPPED_CHEST) return config.trappedChestEnabled;
+        if (block == Blocks.COPPER_CHEST || block == Blocks.EXPOSED_COPPER_CHEST
+                || block == Blocks.WEATHERED_COPPER_CHEST || block == Blocks.OXIDIZED_COPPER_CHEST
+                || block == Blocks.WAXED_COPPER_CHEST || block == Blocks.WAXED_EXPOSED_COPPER_CHEST
+                || block == Blocks.WAXED_WEATHERED_COPPER_CHEST || block == Blocks.WAXED_OXIDIZED_COPPER_CHEST)
+            return config.copperChestEnabled;
 
         return true;
     }

@@ -20,8 +20,8 @@ public class ContainerIndicatorConfig {
     private static ContainerIndicatorConfig instance = new ContainerIndicatorConfig();
 
     public boolean enabled = true;
-    public int indicatorColor = 0xFFAA00;
-    public int fuelColor = 0x00AAFF;
+    public int indicatorColor = 0x6FA9B4;
+    public int fuelColor = 0xCF8261;
     public boolean hopperEnabled = true;
     public boolean dispenserEnabled = true;
     public boolean dropperEnabled = true;

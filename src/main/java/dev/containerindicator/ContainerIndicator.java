@@ -1,11 +1,16 @@
 package dev.containerindicator;
 
 import net.fabricmc.api.ModInitializer;
-import net.minecraft.tags.BlockTags;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerChunkEvents;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.Container;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.chunk.LevelChunk;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -19,6 +24,19 @@ public class ContainerIndicator implements ModInitializer {
     @Override
     public void onInitialize() {
         ContainerIndicatorConfig.load();
+
+        // Refresh all loaded containers after server finishes starting
+        ServerLifecycleEvents.SERVER_STARTED.register(server -> {
+            LOGGER.info("[Handy Indicator] Refreshing container states...");
+            ContainerStateHelper.refreshAllContainers(server);
+        });
+
+        // Refresh containers in newly loaded chunks
+        ServerChunkEvents.CHUNK_LOAD.register((ServerLevel level, LevelChunk chunk) -> {
+            if (level.isClientSide()) return;
+            level.getServer().execute(() -> ContainerStateHelper.refreshChunk(chunk));
+        });
+
         LOGGER.info("[Handy Indicator] Loaded!");
     }
 

@@ -14,6 +14,8 @@ import net.minecraft.world.level.block.entity.ChestBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.ChestType;
 
+import net.minecraft.world.level.chunk.LevelChunk;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,27 +23,31 @@ public final class ContainerStateHelper {
 
     private ContainerStateHelper() {}
 
+    public static void refreshChunk(LevelChunk chunk) {
+        for (BlockEntity be : chunk.getBlockEntities().values()) {
+            if (!(be instanceof Container container)) continue;
+            BlockState state = be.getBlockState();
+            if (state.hasProperty(ContainerIndicator.HAS_ITEMS)) {
+                if (be instanceof ChestBlockEntity) {
+                    updateChestHasItems(be, container);
+                } else {
+                    updateHasItems(be, container);
+                }
+            } else if (state.hasProperty(ContainerIndicator.HAS_INPUT)) {
+                List<ItemStack> items = new ArrayList<>();
+                for (int i = 0; i < container.getContainerSize(); i++) {
+                    items.add(container.getItem(i));
+                }
+                updateFurnaceState(be, items);
+            }
+        }
+    }
+
     public static void refreshAllContainers(MinecraftServer server) {
         for (ServerLevel level : server.getAllLevels()) {
-            level.getChunkSource().chunkMap.forEachReadyToSendChunk(chunk -> {
-                for (BlockEntity be : chunk.getBlockEntities().values()) {
-                    if (!(be instanceof Container container)) continue;
-                    BlockState state = be.getBlockState();
-                    if (state.hasProperty(ContainerIndicator.HAS_ITEMS)) {
-                        if (be instanceof ChestBlockEntity) {
-                            updateChestHasItems(be, container);
-                        } else {
-                            updateHasItems(be, container);
-                        }
-                    } else if (state.hasProperty(ContainerIndicator.HAS_INPUT)) {
-                        List<ItemStack> items = new ArrayList<>();
-                        for (int i = 0; i < container.getContainerSize(); i++) {
-                            items.add(container.getItem(i));
-                        }
-                        updateFurnaceState(be, items);
-                    }
-                }
-            });
+            level.getChunkSource().chunkMap.forEachReadyToSendChunk(
+                    ContainerStateHelper::refreshChunk
+            );
         }
     }
 

@@ -25,7 +25,8 @@
         ]
     },
     "mixins": [
-        "container-indicator.mixins.json"
+        "container-indicator.mixins.json",
+        "container-indicator-client.mixins.json"
     ],
     "depends": {
         "fabricloader": ">=0.18.1",

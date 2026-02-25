@@ -1,0 +1,11 @@
+{
+    "required": true,
+    "package": "dev.containerindicator.mixin.client",
+    "compatibilityLevel": "JAVA_21",
+    "client": [
+        "BlockModelShaperMixin"
+    ],
+    "injectors": {
+        "defaultRequire": 1
+    }
+}

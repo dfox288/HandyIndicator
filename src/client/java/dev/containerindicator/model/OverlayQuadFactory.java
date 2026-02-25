@@ -258,17 +258,17 @@ public final class OverlayQuadFactory {
                 uv0 = packedUV00; uv1 = packedUV01; uv2 = packedUV11; uv3 = packedUV10;
             }
             case WEST -> {
-                p0 = new Vector3f(bx0, by1, bz1);
-                p1 = new Vector3f(bx0, by0, bz1);
-                p2 = new Vector3f(bx0, by0, bz0);
-                p3 = new Vector3f(bx0, by1, bz0);
+                p0 = new Vector3f(bx0, by1, bz0);
+                p1 = new Vector3f(bx0, by0, bz0);
+                p2 = new Vector3f(bx0, by0, bz1);
+                p3 = new Vector3f(bx0, by1, bz1);
                 uv0 = packedUV00; uv1 = packedUV01; uv2 = packedUV11; uv3 = packedUV10;
             }
             case EAST -> {
-                p0 = new Vector3f(bx1, by1, bz0);
-                p1 = new Vector3f(bx1, by0, bz0);
-                p2 = new Vector3f(bx1, by0, bz1);
-                p3 = new Vector3f(bx1, by1, bz1);
+                p0 = new Vector3f(bx1, by1, bz1);
+                p1 = new Vector3f(bx1, by0, bz1);
+                p2 = new Vector3f(bx1, by0, bz0);
+                p3 = new Vector3f(bx1, by1, bz0);
                 uv0 = packedUV00; uv1 = packedUV01; uv2 = packedUV11; uv3 = packedUV10;
             }
             default -> throw new IllegalArgumentException("Unknown face direction: " + face);

@@ -13,9 +13,14 @@ import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.Identifier;
+import net.minecraft.world.level.block.AbstractFurnaceBlock;
+import net.minecraft.world.level.block.BarrelBlock;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.ChestBlock;
+import net.minecraft.world.level.block.CrafterBlock;
+import net.minecraft.world.level.block.DecoratedPotBlock;
+import net.minecraft.world.level.block.DispenserBlock;
+import net.minecraft.world.level.block.HopperBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.ChestType;
 import org.spongepowered.asm.mixin.Mixin;
@@ -25,27 +30,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 @Mixin(BlockModelShaper.class)
 public class BlockModelShaperMixin {
-
-    private static final Set<Block> SIMPLE_CONTAINERS = Set.of(
-            Blocks.HOPPER, Blocks.DROPPER, Blocks.DISPENSER,
-            Blocks.BARREL, Blocks.CRAFTER
-    );
-
-    private static final Set<Block> FURNACES = Set.of(
-            Blocks.FURNACE, Blocks.BLAST_FURNACE, Blocks.SMOKER
-    );
-
-    private static final Set<Block> CHESTS = Set.of(
-            Blocks.CHEST, Blocks.TRAPPED_CHEST,
-            Blocks.COPPER_CHEST, Blocks.EXPOSED_COPPER_CHEST,
-            Blocks.WEATHERED_COPPER_CHEST, Blocks.OXIDIZED_COPPER_CHEST,
-            Blocks.WAXED_COPPER_CHEST, Blocks.WAXED_EXPOSED_COPPER_CHEST,
-            Blocks.WAXED_WEATHERED_COPPER_CHEST, Blocks.WAXED_OXIDIZED_COPPER_CHEST
-    );
 
     @Inject(method = "replaceCache", at = @At("HEAD"))
     private void onReplaceCache(Map<BlockState, BlockStateModel> map, CallbackInfo ci) {
@@ -85,17 +72,18 @@ public class BlockModelShaperMixin {
             BlockState state = entry.getKey();
             Block block = state.getBlock();
 
-            if (SIMPLE_CONTAINERS.contains(block)) {
+            if (block instanceof BarrelBlock || block instanceof CrafterBlock
+                    || block instanceof HopperBlock || block instanceof DispenserBlock) {
                 if (state.getValue(ContainerIndicator.HAS_ITEMS)) {
                     entry.setValue(new CompositeBlockStateModel(
                             entry.getValue(), List.of(standardPart)));
                 }
-            } else if (block == Blocks.DECORATED_POT) {
+            } else if (block instanceof DecoratedPotBlock) {
                 if (state.getValue(ContainerIndicator.HAS_ITEMS)) {
                     entry.setValue(new CompositeBlockStateModel(
                             entry.getValue(), List.of(potPart)));
                 }
-            } else if (FURNACES.contains(block)) {
+            } else if (block instanceof AbstractFurnaceBlock) {
                 boolean hasInput = state.getValue(ContainerIndicator.HAS_INPUT);
                 boolean hasFuel = state.getValue(ContainerIndicator.HAS_FUEL);
                 if (hasInput && hasFuel) {
@@ -108,7 +96,7 @@ public class BlockModelShaperMixin {
                     entry.setValue(new CompositeBlockStateModel(
                             entry.getValue(), List.of(bottomPart)));
                 }
-            } else if (CHESTS.contains(block)) {
+            } else if (block instanceof ChestBlock) {
                 if (!state.getValue(ContainerIndicator.HAS_ITEMS)) {
                     continue;
                 }

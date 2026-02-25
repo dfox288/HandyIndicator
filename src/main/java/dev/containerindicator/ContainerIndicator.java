@@ -6,8 +6,13 @@ import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.level.block.AbstractFurnaceBlock;
+import net.minecraft.world.level.block.BarrelBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.ChestBlock;
+import net.minecraft.world.level.block.DispenserBlock;
+import net.minecraft.world.level.block.HopperBlock;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.chunk.LevelChunk;
 
@@ -94,6 +99,13 @@ public class ContainerIndicator implements ModInitializer {
                 || block == Blocks.WAXED_COPPER_CHEST || block == Blocks.WAXED_EXPOSED_COPPER_CHEST
                 || block == Blocks.WAXED_WEATHERED_COPPER_CHEST || block == Blocks.WAXED_OXIDIZED_COPPER_CHEST)
             return config.copperChestEnabled;
+
+        // Fallback instanceof checks for modded blocks extending vanilla classes
+        if (block instanceof BarrelBlock) return config.barrelEnabled;
+        if (block instanceof ChestBlock) return config.chestEnabled;
+        if (block instanceof AbstractFurnaceBlock) return config.furnaceEnabled;
+        if (block instanceof DispenserBlock) return config.dispenserEnabled;
+        if (block instanceof HopperBlock) return config.hopperEnabled;
 
         return true;
     }

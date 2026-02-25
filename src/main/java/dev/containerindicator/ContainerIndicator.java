@@ -2,6 +2,7 @@ package dev.containerindicator;
 
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerChunkEvents;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
@@ -36,6 +37,12 @@ public class ContainerIndicator implements ModInitializer {
         // Queue newly loaded chunks for refresh (handles player login/teleport)
         ServerChunkEvents.CHUNK_LOAD.register((ServerLevel level, LevelChunk chunk) -> {
             pendingRefresh.add(chunk);
+        });
+
+        // Reset state on server stop (integrated server can restart within same JVM)
+        ServerLifecycleEvents.SERVER_STOPPING.register(server -> {
+            refreshQueued = false;
+            pendingRefresh.clear();
         });
 
         LOGGER.info("[Handy Indicator] Loaded!");

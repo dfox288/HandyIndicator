@@ -10,6 +10,7 @@ At a glance, see which hoppers are loaded, which chests have loot, and which fur
 - **Wide block support** — Chests, trapped chests, copper chests (all variants), hoppers, dispensers, droppers, barrels, crafters, furnaces, blast furnaces, smokers, and decorated pots.
 - **Double chest awareness** — Double chests show a single unified indicator spanning both halves.
 - **Furnace detail** — Furnaces show separate indicators for input and fuel slots with distinct colors.
+- **Resource pack compatible** — Overlays are injected programmatically, so any resource pack's block models work seamlessly.
 - **Per-block toggles** — Enable or disable indicators for each block type individually.
 - **Custom colors** — Choose your own indicator and fuel colors via the config screen.
 - **Configurable** — All settings accessible via YACL config screen or JSON file.

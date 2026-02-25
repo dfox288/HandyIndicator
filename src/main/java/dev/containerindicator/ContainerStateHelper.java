@@ -134,7 +134,7 @@ public final class ContainerStateHelper {
         // For double chests, check the neighbor half too
         boolean unified = thisHasItems;
         ChestType type = state.getValue(ChestBlock.TYPE);
-        if (!unified && type != ChestType.SINGLE) {
+        if (!unified && type != ChestType.SINGLE && ContainerIndicator.isBlockEnabled(block)) {
             Direction neighborDir = type == ChestType.LEFT
                     ? state.getValue(ChestBlock.FACING).getClockWise()
                     : state.getValue(ChestBlock.FACING).getCounterClockWise();

@@ -5,12 +5,13 @@ import dev.containerindicator.model.CompositeBlockStateModel;
 import dev.containerindicator.model.OverlayBlockModelPart;
 import dev.containerindicator.model.OverlayQuadFactory;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.block.BlockModelShaper;
-import net.minecraft.client.renderer.block.model.BakedQuad;
-import net.minecraft.client.renderer.block.model.BlockModelPart;
-import net.minecraft.client.renderer.block.model.BlockStateModel;
+import net.minecraft.client.renderer.block.BlockStateModelSet;
+import net.minecraft.client.renderer.block.dispatch.BlockStateModel;
+import net.minecraft.client.renderer.block.dispatch.BlockStateModelPart;
 import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.client.resources.model.geometry.BakedQuad;
+import net.minecraft.client.resources.model.sprite.Material;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.block.AbstractFurnaceBlock;
@@ -31,15 +32,16 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import java.util.List;
 import java.util.Map;
 
-@Mixin(BlockModelShaper.class)
+@Mixin(BlockStateModelSet.class)
 public class BlockModelShaperMixin {
 
-    @Inject(method = "replaceCache", at = @At("HEAD"))
-    private void onReplaceCache(Map<BlockState, BlockStateModel> map, CallbackInfo ci) {
+    @Inject(method = "<init>", at = @At("TAIL"))
+    private void onInit(Map<BlockState, BlockStateModel> map, BlockStateModel missingModel, CallbackInfo ci) {
         TextureAtlas atlas = (TextureAtlas) Minecraft.getInstance().getTextureManager()
                 .getTexture(TextureAtlas.LOCATION_BLOCKS);
         TextureAtlasSprite sprite = atlas.getSprite(
                 Identifier.fromNamespaceAndPath("container_indicator", "block/indicator"));
+        Material.Baked bakedMaterial = new Material.Baked(sprite, false);
 
         // Build overlay parts once
         List<BakedQuad> standardQuads = OverlayQuadFactory.createStandardOverlay(sprite, 0);
@@ -48,25 +50,20 @@ public class BlockModelShaperMixin {
         List<BakedQuad> chestQuads = OverlayQuadFactory.createChestOverlay(sprite, 0);
         List<BakedQuad> doubleChestQuads = OverlayQuadFactory.createDoubleChestOverlay(sprite, 0);
 
-        BlockModelPart standardPart = new OverlayBlockModelPart(standardQuads, sprite, true);
-        BlockModelPart bottomPart = new OverlayBlockModelPart(bottomQuads, sprite, true);
-        BlockModelPart potPart = new OverlayBlockModelPart(potQuads, sprite, false);
-        BlockModelPart chestPart = new OverlayBlockModelPart(chestQuads, sprite, false);
+        BlockStateModelPart standardPart = new OverlayBlockModelPart(standardQuads, bakedMaterial, true);
+        BlockStateModelPart bottomPart = new OverlayBlockModelPart(bottomQuads, bakedMaterial, true);
+        BlockStateModelPart potPart = new OverlayBlockModelPart(potQuads, bakedMaterial, false);
+        BlockStateModelPart chestPart = new OverlayBlockModelPart(chestQuads, bakedMaterial, false);
 
         // Pre-build double chest overlay rotations per facing
-        // Base overlay extends in +X (east). For LEFT type, neighbor direction determines rotation.
-        // LEFT facing NORTH -> neighbor EAST -> 0 deg
-        // LEFT facing EAST  -> neighbor SOUTH -> 90 deg
-        // LEFT facing SOUTH -> neighbor WEST -> 180 deg
-        // LEFT facing WEST  -> neighbor NORTH -> 270 deg
-        BlockModelPart doubleChestNorth = new OverlayBlockModelPart(
-                OverlayQuadFactory.rotateQuadsY(doubleChestQuads, 0), sprite, false);
-        BlockModelPart doubleChestEast = new OverlayBlockModelPart(
-                OverlayQuadFactory.rotateQuadsY(doubleChestQuads, 90), sprite, false);
-        BlockModelPart doubleChestSouth = new OverlayBlockModelPart(
-                OverlayQuadFactory.rotateQuadsY(doubleChestQuads, 180), sprite, false);
-        BlockModelPart doubleChestWest = new OverlayBlockModelPart(
-                OverlayQuadFactory.rotateQuadsY(doubleChestQuads, 270), sprite, false);
+        BlockStateModelPart doubleChestNorth = new OverlayBlockModelPart(
+                OverlayQuadFactory.rotateQuadsY(doubleChestQuads, 0), bakedMaterial, false);
+        BlockStateModelPart doubleChestEast = new OverlayBlockModelPart(
+                OverlayQuadFactory.rotateQuadsY(doubleChestQuads, 90), bakedMaterial, false);
+        BlockStateModelPart doubleChestSouth = new OverlayBlockModelPart(
+                OverlayQuadFactory.rotateQuadsY(doubleChestQuads, 180), bakedMaterial, false);
+        BlockStateModelPart doubleChestWest = new OverlayBlockModelPart(
+                OverlayQuadFactory.rotateQuadsY(doubleChestQuads, 270), bakedMaterial, false);
 
         for (Map.Entry<BlockState, BlockStateModel> entry : map.entrySet()) {
             BlockState state = entry.getKey();
@@ -106,7 +103,7 @@ public class BlockModelShaperMixin {
                             entry.getValue(), List.of(chestPart)));
                 } else if (type == ChestType.LEFT) {
                     Direction facing = state.getValue(ChestBlock.FACING);
-                    BlockModelPart doubleOverlay = switch (facing) {
+                    BlockStateModelPart doubleOverlay = switch (facing) {
                         case NORTH -> doubleChestNorth;
                         case EAST -> doubleChestEast;
                         case SOUTH -> doubleChestSouth;

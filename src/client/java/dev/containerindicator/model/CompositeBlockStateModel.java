@@ -1,8 +1,8 @@
 package dev.containerindicator.model;
 
-import net.minecraft.client.renderer.block.model.BlockModelPart;
-import net.minecraft.client.renderer.block.model.BlockStateModel;
-import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.client.renderer.block.dispatch.BlockStateModel;
+import net.minecraft.client.renderer.block.dispatch.BlockStateModelPart;
+import net.minecraft.client.resources.model.sprite.Material;
 import net.minecraft.util.RandomSource;
 
 import java.util.List;
@@ -10,21 +10,26 @@ import java.util.List;
 public class CompositeBlockStateModel implements BlockStateModel {
 
     private final BlockStateModel original;
-    private final List<BlockModelPart> overlayParts;
+    private final List<BlockStateModelPart> overlayParts;
 
-    public CompositeBlockStateModel(BlockStateModel original, List<BlockModelPart> overlayParts) {
+    public CompositeBlockStateModel(BlockStateModel original, List<BlockStateModelPart> overlayParts) {
         this.original = original;
         this.overlayParts = overlayParts;
     }
 
     @Override
-    public void collectParts(RandomSource random, List<BlockModelPart> parts) {
+    public void collectParts(RandomSource random, List<BlockStateModelPart> parts) {
         original.collectParts(random, parts);
         parts.addAll(overlayParts);
     }
 
     @Override
-    public TextureAtlasSprite particleIcon() {
-        return original.particleIcon();
+    public Material.Baked particleMaterial() {
+        return original.particleMaterial();
+    }
+
+    @Override
+    public int materialFlags() {
+        return original.materialFlags();
     }
 }

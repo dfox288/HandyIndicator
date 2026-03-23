@@ -6,7 +6,7 @@ A Fabric mod that shows subtle visual indicators on container blocks (chests, ho
 
 ## Tech Stack
 
-- **Minecraft**: 26.1-rc-1 (first unobfuscated version — no mappings needed)
+- **Minecraft**: 26.1-rc-3 (first unobfuscated version — no mappings needed)
 - **Fabric Loader**: 0.18.4
 - **Fabric API**: 0.143.14+26.1
 - **Fabric Loom**: 1.15.5

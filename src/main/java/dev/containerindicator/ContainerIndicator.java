@@ -40,7 +40,7 @@ public class ContainerIndicator implements ModInitializer {
         ServerTickEvents.END_SERVER_TICK.register(this::processRefreshQueue);
 
         // Queue newly loaded chunks for refresh (handles player login/teleport)
-        ServerChunkEvents.CHUNK_LOAD.register((ServerLevel level, LevelChunk chunk) -> {
+        ServerChunkEvents.CHUNK_LOAD.register((ServerLevel level, LevelChunk chunk, boolean isNewChunk) -> {
             pendingRefresh.add(chunk);
         });
 

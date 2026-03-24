@@ -1,8 +1,8 @@
 package dev.containerindicator.model;
 
-import net.minecraft.client.renderer.block.model.BakedQuad;
-import net.minecraft.client.renderer.block.model.BlockModelPart;
-import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.client.renderer.block.dispatch.BlockStateModelPart;
+import net.minecraft.client.resources.model.geometry.BakedQuad;
+import net.minecraft.client.resources.model.sprite.Material;
 import net.minecraft.core.Direction;
 
 import java.util.ArrayList;
@@ -10,14 +10,14 @@ import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 
-public class OverlayBlockModelPart implements BlockModelPart {
+public class OverlayBlockModelPart implements BlockStateModelPart {
 
     private final Map<Direction, List<BakedQuad>> culledQuads;
     private final List<BakedQuad> unculledQuads;
-    private final TextureAtlasSprite sprite;
+    private final Material.Baked particleMaterial;
 
-    public OverlayBlockModelPart(List<BakedQuad> quads, TextureAtlasSprite sprite, boolean useCullface) {
-        this.sprite = sprite;
+    public OverlayBlockModelPart(List<BakedQuad> quads, Material.Baked particleMaterial, boolean useCullface) {
+        this.particleMaterial = particleMaterial;
         this.culledQuads = new EnumMap<>(Direction.class);
         this.unculledQuads = new ArrayList<>();
 
@@ -48,7 +48,12 @@ public class OverlayBlockModelPart implements BlockModelPart {
     }
 
     @Override
-    public TextureAtlasSprite particleIcon() {
-        return sprite;
+    public Material.Baked particleMaterial() {
+        return particleMaterial;
+    }
+
+    @Override
+    public int materialFlags() {
+        return 0;
     }
 }

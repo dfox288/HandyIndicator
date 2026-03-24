@@ -1,8 +1,10 @@
 package dev.containerindicator.model;
 
 import net.minecraft.client.model.geom.builders.UVPair;
-import net.minecraft.client.renderer.block.model.BakedQuad;
+import net.minecraft.client.renderer.chunk.ChunkSectionLayer;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.client.resources.model.geometry.BakedQuad;
+import net.minecraft.client.resources.model.sprite.Material;
 import net.minecraft.core.Direction;
 import org.joml.Vector3f;
 import org.joml.Vector3fc;
@@ -155,7 +157,7 @@ public final class OverlayQuadFactory {
 
         return new BakedQuad(p0, p1, p2, p3,
                 quad.packedUV0(), quad.packedUV1(), quad.packedUV2(), quad.packedUV3(),
-                quad.tintIndex(), newDir, quad.sprite(), quad.shade(), quad.lightEmission());
+                newDir, quad.materialInfo());
     }
 
     private static Vector3fc rotatePointY(Vector3fc point, int steps) {
@@ -277,7 +279,12 @@ public final class OverlayQuadFactory {
         // cullface: use the cullface direction for the BakedQuad's direction field
         Direction quadDir = cullface != null ? cullface : face;
 
+        // Build MaterialInfo with CUTOUT layer, tint, no shade, no light emission
+        Material.Baked bakedMaterial = new Material.Baked(sprite, false);
+        BakedQuad.MaterialInfo materialInfo = BakedQuad.MaterialInfo.of(
+                bakedMaterial, sprite.transparency(), tintIndex, false, 0);
+
         return new BakedQuad(p0, p1, p2, p3, uv0, uv1, uv2, uv3,
-                tintIndex, quadDir, sprite, false, 0);
+                quadDir, materialInfo);
     }
 }

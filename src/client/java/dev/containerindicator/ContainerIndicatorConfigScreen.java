@@ -115,8 +115,16 @@ public class ContainerIndicatorConfigScreen {
                 .save(() -> {
                     ContainerIndicatorConfig.save();
                     Minecraft minecraft = Minecraft.getInstance();
-                    // Force all chunks to re-render for color changes
-                    minecraft.levelRenderer.allChanged();
+                    // Force all chunks to re-render for color changes.
+                    // 26.2 replaced LevelRenderer.allChanged() with invalidateCompiledGeometry();
+                    // skip when not in a level (config may be edited from the title screen).
+                    if (minecraft.level != null) {
+                        minecraft.levelRenderer.invalidateCompiledGeometry(
+                                minecraft.level,
+                                minecraft.options,
+                                minecraft.gameRenderer.mainCamera(),
+                                minecraft.getBlockColors());
+                    }
                     // Re-evaluate all container blockstates for toggle changes
                     MinecraftServer server = minecraft.getSingleplayerServer();
                     if (server != null) {

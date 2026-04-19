@@ -94,11 +94,9 @@ public class ContainerIndicator implements ModInitializer {
         if (block == Blocks.DECORATED_POT) return config.decoratedPotEnabled;
         if (block == Blocks.CHEST) return config.chestEnabled;
         if (block == Blocks.TRAPPED_CHEST) return config.trappedChestEnabled;
-        if (block == Blocks.COPPER_CHEST || block == Blocks.EXPOSED_COPPER_CHEST
-                || block == Blocks.WEATHERED_COPPER_CHEST || block == Blocks.OXIDIZED_COPPER_CHEST
-                || block == Blocks.WAXED_COPPER_CHEST || block == Blocks.WAXED_EXPOSED_COPPER_CHEST
-                || block == Blocks.WAXED_WEATHERED_COPPER_CHEST || block == Blocks.WAXED_OXIDIZED_COPPER_CHEST)
-            return config.copperChestEnabled;
+        // 26.2 consolidated copper variants into a WeatheringCopperCollection;
+        // asList() yields all 8 (4 weather stages × waxed/unwaxed).
+        if (Blocks.COPPER_CHEST.asList().contains(block)) return config.copperChestEnabled;
 
         // Fallback instanceof checks for modded blocks extending vanilla classes
         if (block instanceof BarrelBlock) return config.barrelEnabled;

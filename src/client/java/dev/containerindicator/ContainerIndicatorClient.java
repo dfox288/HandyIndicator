@@ -11,22 +11,10 @@ import java.util.List;
 public class ContainerIndicatorClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
-        // Tint sources for indicator (index 0) and fuel (index 1)
-        BlockTintSource indicatorTint = (state) -> {
-            int color = ContainerIndicator.getIndicatorColor();
-            ContainerIndicator.LOGGER.info("[Handy Indicator] Color provider called for indicator, color: 0x{:06X}", color);
-            return color;
-        };
-        BlockTintSource fuelTint = (state) -> {
-            int color = ContainerIndicator.getFuelColor();
-            ContainerIndicator.LOGGER.info("[Handy Indicator] Color provider called for fuel, color: 0x{:06X}", color);
-            return color;
-        };
-        BlockTintSource readyTint = (state) -> {
-            int color = ContainerIndicator.getReadyColor();
-            ContainerIndicator.LOGGER.info("[Handy Indicator] Color provider called for ready, color: 0x{:06X}", color);
-            return color;
-        };
+        // Tint sources: indicator (index 0), fuel (index 1), ready (index 2)
+        BlockTintSource indicatorTint = (state) -> ContainerIndicator.getIndicatorColor();
+        BlockTintSource fuelTint = (state) -> ContainerIndicator.getFuelColor();
+        BlockTintSource readyTint = (state) -> ContainerIndicator.getReadyColor();
         List<BlockTintSource> tintSources = List.of(indicatorTint, fuelTint, readyTint);
 
         // Register color providers for any block that has our mixin-injected properties
@@ -35,7 +23,6 @@ public class ContainerIndicatorClient implements ClientModInitializer {
                     || block.defaultBlockState().getProperties().contains(ContainerIndicator.HAS_INPUT)
                     || block.defaultBlockState().getProperties().contains(ContainerIndicator.HAS_ITEMS_READY);
             if (hasIndicator) {
-                ContainerIndicator.LOGGER.info("[Handy Indicator] Registering color provider for block: {}", block);
                 BlockColorRegistry.register(tintSources, block);
             }
         }

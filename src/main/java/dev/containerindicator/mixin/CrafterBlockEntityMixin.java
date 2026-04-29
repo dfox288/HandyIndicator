@@ -20,10 +20,12 @@ public abstract class CrafterBlockEntityMixin {
     @Inject(method = "setItem", at = @At("TAIL"))
     private void containerindicator$onSetItem(int slot, ItemStack stack, CallbackInfo ci) {
         ContainerStateHelper.updateHasItems((CrafterBlockEntity) (Object) this, this.items);
+        ContainerStateHelper.updateCrafterReadyState((CrafterBlockEntity) (Object) this, this.items);
     }
 
     @Inject(method = "loadAdditional", at = @At("TAIL"))
     private void containerindicator$onLoadAdditional(ValueInput input, CallbackInfo ci) {
         ContainerStateHelper.updateHasItems((CrafterBlockEntity) (Object) this, this.items);
+        ContainerStateHelper.updateCrafterReadyState((CrafterBlockEntity) (Object) this, this.items);
     }
 }

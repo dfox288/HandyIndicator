@@ -13,6 +13,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.ChestBlock;
 import net.minecraft.world.level.block.DispenserBlock;
 import net.minecraft.world.level.block.HopperBlock;
+import net.minecraft.world.level.block.ShulkerBoxBlock;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.chunk.LevelChunk;
 
@@ -27,6 +28,7 @@ public class ContainerIndicator implements ModInitializer {
     public static final BooleanProperty HAS_ITEMS = BooleanProperty.create("has_items");
     public static final BooleanProperty HAS_INPUT = BooleanProperty.create("has_input");
     public static final BooleanProperty HAS_FUEL = BooleanProperty.create("has_fuel");
+    public static final BooleanProperty HAS_ITEMS_READY = BooleanProperty.create("has_items_ready");
 
     private static final int CHUNKS_PER_TICK = 10;
     private static final Queue<LevelChunk> pendingRefresh = new ArrayDeque<>();
@@ -79,6 +81,10 @@ public class ContainerIndicator implements ModInitializer {
         return ContainerIndicatorConfig.instance().fuelColor & 0x00FFFFFF;
     }
 
+    public static int getReadyColor() {
+        return ContainerIndicatorConfig.instance().crafterReadyColor & 0x00FFFFFF;
+    }
+
     public static boolean isBlockEnabled(Block block) {
         ContainerIndicatorConfig config = ContainerIndicatorConfig.instance();
         if (!config.enabled) return false;
@@ -104,6 +110,7 @@ public class ContainerIndicator implements ModInitializer {
         if (block instanceof AbstractFurnaceBlock) return config.furnaceEnabled;
         if (block instanceof DispenserBlock) return config.dispenserEnabled;
         if (block instanceof HopperBlock) return config.hopperEnabled;
+        if (block instanceof ShulkerBoxBlock) return config.shulkerBoxEnabled;
 
         return true;
     }

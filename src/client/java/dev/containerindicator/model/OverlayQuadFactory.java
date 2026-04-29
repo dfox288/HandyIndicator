@@ -4,6 +4,7 @@ import net.minecraft.client.model.geom.builders.UVPair;
 import net.minecraft.client.renderer.chunk.ChunkSectionLayer;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.model.geometry.BakedQuad;
+import com.mojang.blaze3d.platform.Transparency;
 import net.minecraft.client.resources.model.sprite.Material;
 import net.minecraft.core.Direction;
 import org.joml.Vector3f;
@@ -107,6 +108,30 @@ public final class OverlayQuadFactory {
                 0.99f, 8, 1, 0.999f, 9, 15));
         quads.add(createQuad(sprite, tintIndex, Direction.EAST, null,
                 15.001f, 8, 1, 15.01f, 9, 15));
+        return quads;
+    }
+
+    public static List<BakedQuad> createReadyOverlay(TextureAtlasSprite sprite, int tintIndex) {
+        // Ready indicator is smaller, centered in the slot area (Y=7-9 for crafter)
+        List<BakedQuad> quads = new ArrayList<>();
+        // UP faces at Y=8.51-8.52, centered in crafter
+        quads.add(createQuad(sprite, tintIndex, Direction.UP, null,
+                2, 8.51f, 2, 14, 8.52f, 3));
+        quads.add(createQuad(sprite, tintIndex, Direction.UP, null,
+                2, 8.51f, 13, 14, 8.52f, 14));
+        quads.add(createQuad(sprite, tintIndex, Direction.UP, null,
+                2, 8.51f, 3, 3, 8.52f, 13));
+        quads.add(createQuad(sprite, tintIndex, Direction.UP, null,
+                13, 8.51f, 3, 14, 8.52f, 13));
+        // Side strips at Y=8-8.5
+        quads.add(createQuad(sprite, tintIndex, Direction.NORTH, null,
+                2, 8f, 1.99f, 14, 8.5f, 1.999f));
+        quads.add(createQuad(sprite, tintIndex, Direction.SOUTH, null,
+                2, 8f, 15.001f, 14, 8.5f, 15.01f));
+        quads.add(createQuad(sprite, tintIndex, Direction.WEST, null,
+                1.99f, 8f, 2, 1.999f, 8.5f, 14));
+        quads.add(createQuad(sprite, tintIndex, Direction.EAST, null,
+                15.001f, 8f, 2, 15.01f, 8.5f, 14));
         return quads;
     }
 
@@ -279,12 +304,10 @@ public final class OverlayQuadFactory {
         // cullface: use the cullface direction for the BakedQuad's direction field
         Direction quadDir = cullface != null ? cullface : face;
 
-        // Build MaterialInfo with CUTOUT layer, tint, no shade, no light emission
-        Material.Baked bakedMaterial = new Material.Baked(sprite, false);
-        BakedQuad.MaterialInfo materialInfo = BakedQuad.MaterialInfo.of(
-                bakedMaterial, sprite.transparency(), tintIndex, false, 0);
+        // MaterialInfo handles sprite + tinting; color is applied by the block color provider
+        var matInfo = net.minecraft.client.resources.model.geometry.BakedQuad.MaterialInfo
+                .of(new Material.Baked(sprite, false), Transparency.TRANSLUCENT, tintIndex, true, 0);
 
-        return new BakedQuad(p0, p1, p2, p3, uv0, uv1, uv2, uv3,
-                quadDir, materialInfo);
+        return new BakedQuad(p0, p1, p2, p3, uv0, uv1, uv2, uv3, quadDir, matInfo);
     }
 }

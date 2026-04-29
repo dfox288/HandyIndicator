@@ -22,6 +22,7 @@ import net.minecraft.world.level.block.CrafterBlock;
 import net.minecraft.world.level.block.DecoratedPotBlock;
 import net.minecraft.world.level.block.DispenserBlock;
 import net.minecraft.world.level.block.HopperBlock;
+import net.minecraft.world.level.block.ShulkerBoxBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.ChestType;
 import org.spongepowered.asm.mixin.Mixin;
@@ -49,11 +50,13 @@ public class BlockModelShaperMixin {
         List<BakedQuad> potQuads = OverlayQuadFactory.createPotOverlay(sprite, 0);
         List<BakedQuad> chestQuads = OverlayQuadFactory.createChestOverlay(sprite, 0);
         List<BakedQuad> doubleChestQuads = OverlayQuadFactory.createDoubleChestOverlay(sprite, 0);
+        List<BakedQuad> readyQuads = OverlayQuadFactory.createReadyOverlay(sprite, 2);
 
         BlockStateModelPart standardPart = new OverlayBlockModelPart(standardQuads, bakedMaterial, true);
         BlockStateModelPart bottomPart = new OverlayBlockModelPart(bottomQuads, bakedMaterial, true);
         BlockStateModelPart potPart = new OverlayBlockModelPart(potQuads, bakedMaterial, false);
         BlockStateModelPart chestPart = new OverlayBlockModelPart(chestQuads, bakedMaterial, false);
+        BlockStateModelPart readyPart = new OverlayBlockModelPart(readyQuads, bakedMaterial, false);
 
         // Pre-build double chest overlay rotations per facing
         BlockStateModelPart doubleChestNorth = new OverlayBlockModelPart(
@@ -69,11 +72,23 @@ public class BlockModelShaperMixin {
             BlockState state = entry.getKey();
             Block block = state.getBlock();
 
-            if (block instanceof BarrelBlock || block instanceof CrafterBlock
-                    || block instanceof HopperBlock || block instanceof DispenserBlock) {
+            if (block instanceof BarrelBlock || block instanceof HopperBlock || block instanceof DispenserBlock) {
                 if (state.getValue(ContainerIndicator.HAS_ITEMS)) {
                     entry.setValue(new CompositeBlockStateModel(
                             entry.getValue(), List.of(standardPart)));
+                }
+            } else if (block instanceof CrafterBlock) {
+                // Crafter has two separate indicators: has_items (standard) and has_items_ready (green)
+                boolean hasItems = state.getValue(ContainerIndicator.HAS_ITEMS);
+                boolean isReady = state.getValue(ContainerIndicator.HAS_ITEMS_READY);
+                if (hasItems) {
+                    if (isReady) {
+                        entry.setValue(new CompositeBlockStateModel(
+                                entry.getValue(), List.of(standardPart, readyPart)));
+                    } else {
+                        entry.setValue(new CompositeBlockStateModel(
+                                entry.getValue(), List.of(standardPart)));
+                    }
                 }
             } else if (block instanceof DecoratedPotBlock) {
                 if (state.getValue(ContainerIndicator.HAS_ITEMS)) {
@@ -114,6 +129,11 @@ public class BlockModelShaperMixin {
                             entry.getValue(), List.of(doubleOverlay)));
                 }
                 // RIGHT type: no overlay (left half handles the full double overlay)
+            } else if (block instanceof ShulkerBoxBlock) {
+                if (state.getValue(ContainerIndicator.HAS_ITEMS)) {
+                    entry.setValue(new CompositeBlockStateModel(
+                            entry.getValue(), List.of(standardPart)));
+                }
             }
         }
     }

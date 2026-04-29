@@ -2,6 +2,7 @@ package dev.containerindicator;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.NonNullList;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.Container;
@@ -9,8 +10,10 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.ChestBlock;
+import net.minecraft.world.level.block.CrafterBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.ChestBlockEntity;
+import net.minecraft.world.level.block.entity.CrafterBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.ChestType;
 
@@ -24,6 +27,7 @@ public final class ContainerStateHelper {
     private ContainerStateHelper() {}
 
     public static void refreshChunk(LevelChunk chunk) {
+        int crafterCount = 0;
         for (BlockEntity be : chunk.getBlockEntities().values()) {
             if (!(be instanceof Container container)) continue;
             BlockState state = be.getBlockState();
@@ -33,13 +37,31 @@ public final class ContainerStateHelper {
                 } else {
                     updateHasItems(be, container);
                 }
-            } else if (state.hasProperty(ContainerIndicator.HAS_INPUT)) {
+            }
+            if (state.hasProperty(ContainerIndicator.HAS_INPUT)) {
                 List<ItemStack> items = new ArrayList<>();
                 for (int i = 0; i < container.getContainerSize(); i++) {
                     items.add(container.getItem(i));
                 }
                 updateFurnaceState(be, items);
             }
+            if (state.hasProperty(ContainerIndicator.HAS_ITEMS_READY)) {
+                if (be instanceof CrafterBlockEntity crafter) {
+                    crafterCount++;
+                    NonNullList<ItemStack> items = crafter.getItems();
+                    StringBuilder itemLog = new StringBuilder("[Handy Indicator] Found crafter at " + be.getBlockPos() + " items.size=" + items.size() + " [");
+                    for (int i = 0; i < Math.min(10, items.size()); i++) {
+                        ItemStack stack = items.get(i);
+                        itemLog.append("slot ").append(i).append(": ").append(stack.isEmpty() ? "EMPTY" : stack.getItem().toString()).append(", ");
+                    }
+                    itemLog.append("]");
+                    ContainerIndicator.LOGGER.info(itemLog.toString());
+                    updateCrafterReadyState(be, items);
+                }
+            }
+        }
+        if (crafterCount > 0) {
+            ContainerIndicator.LOGGER.info("[Handy Indicator] Refreshed {} crafters in chunk {}", crafterCount, chunk.getPos());
         }
     }
 
@@ -212,9 +234,54 @@ public final class ContainerStateHelper {
 
         boolean currentValue = state.getValue(ContainerIndicator.HAS_ITEMS);
         if (currentValue != hasItems) {
+            ContainerIndicator.LOGGER.info("[Handy Indicator] {} has_items: {} -> {} (inventory size: {})", entity.getBlockPos(), currentValue, hasItems, inventory.size());
             entity.getLevel().setBlock(
                     entity.getBlockPos(),
                     state.setValue(ContainerIndicator.HAS_ITEMS, hasItems),
+                    Block.UPDATE_CLIENTS
+            );
+        }
+    }
+
+    public static void updateCrafterReadyState(BlockEntity entity, NonNullList<ItemStack> items) {
+        if (entity.getLevel() == null || entity.getLevel().isClientSide()) {
+            return;
+        }
+
+        BlockState state = entity.getBlockState();
+        if (!state.hasProperty(ContainerIndicator.HAS_ITEMS_READY)) {
+            return;
+        }
+
+        Block block = state.getBlock();
+        boolean isReady = false;
+
+        if (ContainerIndicator.isBlockEnabled(block)) {
+            // Crafter is "ready" if:
+            // 1. It has items in the grid (slots 0-8)
+            // 2. The output slot (slot 9) is NOT full (can accept more items)
+            // We approximate this by checking if output slot is empty or not at max stack size
+            // NonNullList always has 10 slots for CrafterBlockEntity, so we can safely access index 9
+            ItemStack outputStack = items.size() > 9 ? items.get(9) : ItemStack.EMPTY;
+            boolean hasInput = false;
+            for (int i = 0; i < 9; i++) {
+                if (items.size() > i && !items.get(i).isEmpty()) {
+                    hasInput = true;
+                    break;
+                }
+            }
+            // Ready if has input AND output can accept more (not full)
+            if (hasInput && (outputStack.isEmpty() || outputStack.getCount() < outputStack.getMaxStackSize())) {
+                isReady = true;
+            }
+        }
+
+        boolean currentValue = state.getValue(ContainerIndicator.HAS_ITEMS_READY);
+        if (currentValue != isReady) {
+            ContainerIndicator.LOGGER.info("[Handy Indicator] Crafter at {} ready state: {} -> {}", entity.getBlockPos(), currentValue, isReady);
+            entity.getLevel().setBlock(
+                    entity.getBlockPos(),
+                    state.setValue(ContainerIndicator.HAS_ITEMS_READY, isReady),
                     Block.UPDATE_CLIENTS
             );
         }

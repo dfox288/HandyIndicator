@@ -9,7 +9,7 @@ Stop right-clicking every hopper to check if it's running. A colored crown sits 
 ## Features
 
 - **Visual overlay indicators** — A colored border appears on containers that have items inside.
-- **Wide block support** — Chests, trapped chests, copper chests (all variants), hoppers, dispensers, droppers, barrels, crafters, furnaces, blast furnaces, smokers, and decorated pots.
+- **Wide block support** — Chests, trapped chests, copper chests (all variants), hoppers, dispensers, droppers, barrels, crafters, furnaces, blast furnaces, smokers, decorated pots, and shulker boxes.
 - **Double chest awareness** — Double chests show a single unified indicator spanning both halves.
 - **Furnace detail** — Furnaces show separate indicators for input and fuel slots with distinct colors.
 - **Resource pack compatible** — Overlays are injected programmatically, so any resource pack's block models work seamlessly.

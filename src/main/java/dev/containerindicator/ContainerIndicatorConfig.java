@@ -34,6 +34,8 @@ public class ContainerIndicatorConfig {
     public boolean chestEnabled = true;
     public boolean trappedChestEnabled = true;
     public boolean copperChestEnabled = true;
+    public boolean shulkerBoxEnabled = true;
+    public int crafterReadyColor = 0x6FDE74;  // Green for "ready"
 
     public static ContainerIndicatorConfig instance() {
         return instance;
@@ -71,5 +73,9 @@ public class ContainerIndicatorConfig {
 
     public Color getFuelColorObj() {
         return new Color(fuelColor);
+    }
+
+    public Color getReadyColorObj() {
+        return new Color(crafterReadyColor);
     }
 }

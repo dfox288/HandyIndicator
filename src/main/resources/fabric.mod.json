@@ -3,7 +3,7 @@
     "id": "container-indicator",
     "version": "${version}",
     "name": "Handy Indicator",
-    "description": "Shows a subtle visual indicator on container blocks (chests, trapped chests, copper chests, hoppers, dispensers, droppers, barrels, crafters, furnaces, decorated pots) when they contain items. Fully configurable with per-block toggles and custom indicator colors via YACL.",
+    "description": "Shows a subtle visual indicator on container blocks (chests, trapped chests, copper chests, hoppers, dispensers, droppers, barrels, crafters, furnaces, decorated pots, shulker boxes) when they contain items. Fully configurable with per-block toggles and custom indicator colors via YACL.",
     "authors": ["D.Fox"],
     "contact": {
         "homepage": "https://github.com/dfox288/HandyIndicator",

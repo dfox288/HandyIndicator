@@ -31,6 +31,16 @@ public class HandyIndicator implements ModInitializer {
     public static final BooleanProperty HAS_ITEMS_READY = BooleanProperty.create("has_items_ready");
 
     private static final int CHUNKS_PER_TICK = 10;
+    /**
+     * Pending chunk refreshes, processed in batches of {@link #CHUNKS_PER_TICK} per server tick.
+     *
+     * <p>Thread-safety: this queue is only ever touched from the server thread —
+     * {@code ServerChunkEvents.CHUNK_LOAD} fires on the server thread, and
+     * {@code processRefreshQueue} runs from {@code ServerTickEvents.END_SERVER_TICK}
+     * which is also server-thread-only. {@link ArrayDeque} therefore needs no external
+     * synchronization. Do not hand a reference to this queue to any code that might
+     * touch it from a worker thread or off the server tick.
+     */
     private static final Queue<LevelChunk> pendingRefresh = new ArrayDeque<>();
     private static boolean refreshQueued = false;
 

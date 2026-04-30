@@ -23,12 +23,12 @@ public abstract class ChestBlockMixin extends Block {
         super(properties);
     }
 
-    @Inject(method = "createBlockStateDefinition", at = @At("TAIL"))
+    @Inject(method = "createBlockStateDefinition(Lnet/minecraft/world/level/block/state/StateDefinition$Builder;)V", at = @At("TAIL"))
     private void handyindicator$addHasItems(StateDefinition.Builder<Block, BlockState> builder, CallbackInfo ci) {
         builder.add(HandyIndicator.HAS_ITEMS);
     }
 
-    @Inject(method = "<init>", at = @At("RETURN"))
+    @Inject(method = "<init>(Ljava/util/function/Supplier;Lnet/minecraft/sounds/SoundEvent;Lnet/minecraft/sounds/SoundEvent;Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;)V", at = @At("RETURN"))
     private void handyindicator$setDefaultHasItems(
             Supplier<BlockEntityType<? extends ChestBlockEntity>> blockEntityType,
             SoundEvent openSound, SoundEvent closeSound,

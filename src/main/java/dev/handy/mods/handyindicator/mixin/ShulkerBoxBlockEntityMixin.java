@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(ShulkerBoxBlockEntity.class)
 public abstract class ShulkerBoxBlockEntityMixin {
 
-    @Inject(method = "loadAdditional", at = @At("TAIL"))
+    @Inject(method = "loadAdditional(Lnet/minecraft/world/level/storage/ValueInput;)V", at = @At("TAIL"))
     private void handyindicator$onLoadAdditional(ValueInput input, CallbackInfo ci) {
         ShulkerBoxBlockEntity self = (ShulkerBoxBlockEntity) (Object) this;
         ContainerStateHelper.updateHasItems(self, self);

@@ -18,17 +18,17 @@ public abstract class HopperBlockEntityMixin {
     @Shadow
     private NonNullList<ItemStack> items;
 
-    @Inject(method = "setItem", at = @At("TAIL"))
+    @Inject(method = "setItem(ILnet/minecraft/world/item/ItemStack;)V", at = @At("TAIL"))
     private void handyindicator$onSetItem(int slot, ItemStack stack, CallbackInfo ci) {
         ContainerStateHelper.updateHasItems((HopperBlockEntity) (Object) this, this.items);
     }
 
-    @Inject(method = "removeItem", at = @At("TAIL"))
+    @Inject(method = "removeItem(II)Lnet/minecraft/world/item/ItemStack;", at = @At("TAIL"))
     private void handyindicator$onRemoveItem(int slot, int amount, CallbackInfoReturnable<ItemStack> cir) {
         ContainerStateHelper.updateHasItems((HopperBlockEntity) (Object) this, this.items);
     }
 
-    @Inject(method = "loadAdditional", at = @At("TAIL"))
+    @Inject(method = "loadAdditional(Lnet/minecraft/world/level/storage/ValueInput;)V", at = @At("TAIL"))
     private void handyindicator$onLoadAdditional(ValueInput input, CallbackInfo ci) {
         ContainerStateHelper.updateHasItems((HopperBlockEntity) (Object) this, this.items);
     }

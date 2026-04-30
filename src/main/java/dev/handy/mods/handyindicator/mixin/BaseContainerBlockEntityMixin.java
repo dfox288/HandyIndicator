@@ -27,12 +27,12 @@ public abstract class BaseContainerBlockEntityMixin {
         }
     }
 
-    @Inject(method = "setItem", at = @At("TAIL"))
+    @Inject(method = "setItem(ILnet/minecraft/world/item/ItemStack;)V", at = @At("TAIL"))
     private void handyindicator$onSetItem(int slot, ItemStack stack, CallbackInfo ci) {
         handyindicator$tryUpdate();
     }
 
-    @Inject(method = "removeItem", at = @At("TAIL"))
+    @Inject(method = "removeItem(II)Lnet/minecraft/world/item/ItemStack;", at = @At("TAIL"))
     private void handyindicator$onRemoveItem(int slot, int amount, CallbackInfoReturnable<ItemStack> cir) {
         handyindicator$tryUpdate();
     }

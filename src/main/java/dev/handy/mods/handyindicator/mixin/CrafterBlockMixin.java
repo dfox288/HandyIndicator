@@ -18,13 +18,13 @@ public abstract class CrafterBlockMixin extends Block {
         super(properties);
     }
 
-    @Inject(method = "createBlockStateDefinition", at = @At("TAIL"))
+    @Inject(method = "createBlockStateDefinition(Lnet/minecraft/world/level/block/state/StateDefinition$Builder;)V", at = @At("TAIL"))
     private void handyindicator$addProperties(StateDefinition.Builder<Block, BlockState> builder, CallbackInfo ci) {
         builder.add(HandyIndicator.HAS_ITEMS);
         builder.add(HandyIndicator.HAS_ITEMS_READY);
     }
 
-    @Inject(method = "<init>", at = @At("RETURN"))
+    @Inject(method = "<init>(Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;)V", at = @At("RETURN"))
     private void handyindicator$setDefaultProperties(BlockBehaviour.Properties properties, CallbackInfo ci) {
         // Chain both setValue calls into a single registerDefaultState. Each
         // registerDefaultState call resolves its arg from defaultBlockState()

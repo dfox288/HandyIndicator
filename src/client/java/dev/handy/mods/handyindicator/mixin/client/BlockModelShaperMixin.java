@@ -36,7 +36,7 @@ import java.util.Map;
 @Mixin(BlockStateModelSet.class)
 public class BlockModelShaperMixin {
 
-    @Inject(method = "<init>", at = @At("TAIL"))
+    @Inject(method = "<init>(Ljava/util/Map;Lnet/minecraft/client/renderer/block/dispatch/BlockStateModel;)V", at = @At("TAIL"))
     private void onInit(Map<BlockState, BlockStateModel> map, BlockStateModel missingModel, CallbackInfo ci) {
         TextureAtlas atlas = (TextureAtlas) Minecraft.getInstance().getTextureManager()
                 .getTexture(TextureAtlas.LOCATION_BLOCKS);

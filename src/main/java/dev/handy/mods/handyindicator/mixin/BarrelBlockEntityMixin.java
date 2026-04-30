@@ -17,7 +17,7 @@ public abstract class BarrelBlockEntityMixin {
     @Shadow
     private NonNullList<ItemStack> items;
 
-    @Inject(method = "loadAdditional", at = @At("TAIL"))
+    @Inject(method = "loadAdditional(Lnet/minecraft/world/level/storage/ValueInput;)V", at = @At("TAIL"))
     private void handyindicator$onLoadAdditional(ValueInput input, CallbackInfo ci) {
         ContainerStateHelper.updateHasItems((BarrelBlockEntity) (Object) this, this.items);
     }

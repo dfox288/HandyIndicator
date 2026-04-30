@@ -25,17 +25,17 @@ public abstract class DecoratedPotBlockEntityMixin {
         }
     }
 
-    @Inject(method = "setTheItem", at = @At("TAIL"))
+    @Inject(method = "setTheItem(Lnet/minecraft/world/item/ItemStack;)V", at = @At("TAIL"))
     private void handyindicator$onSetTheItem(ItemStack stack, CallbackInfo ci) {
         handyindicator$tryUpdate();
     }
 
-    @Inject(method = "splitTheItem", at = @At("TAIL"))
+    @Inject(method = "splitTheItem(I)Lnet/minecraft/world/item/ItemStack;", at = @At("TAIL"))
     private void handyindicator$onSplitTheItem(int amount, CallbackInfoReturnable<ItemStack> cir) {
         handyindicator$tryUpdate();
     }
 
-    @Inject(method = "loadAdditional", at = @At("TAIL"))
+    @Inject(method = "loadAdditional(Lnet/minecraft/world/level/storage/ValueInput;)V", at = @At("TAIL"))
     private void handyindicator$onLoadAdditional(ValueInput input, CallbackInfo ci) {
         handyindicator$tryUpdate();
     }

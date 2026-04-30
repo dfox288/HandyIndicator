@@ -14,7 +14,7 @@ public class HandyIndicatorConfigScreen {
 
     static Screen makeScreen(Screen parent) {
         HandyIndicatorConfig defaults = new HandyIndicatorConfig();
-        HandyIndicatorConfig config = HandyIndicatorConfig.instance();
+        HandyIndicatorConfig config = HandyIndicatorConfig.get();
 
         return YetAnotherConfigLib.createBuilder()
                 .title(Component.literal("Container Indicator"))

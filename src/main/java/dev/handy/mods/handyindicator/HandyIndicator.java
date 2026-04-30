@@ -74,19 +74,19 @@ public class HandyIndicator implements ModInitializer {
     }
 
     public static int getIndicatorColor() {
-        return HandyIndicatorConfig.instance().indicatorColor & 0x00FFFFFF;
+        return HandyIndicatorConfig.get().indicatorColor & 0x00FFFFFF;
     }
 
     public static int getFuelColor() {
-        return HandyIndicatorConfig.instance().fuelColor & 0x00FFFFFF;
+        return HandyIndicatorConfig.get().fuelColor & 0x00FFFFFF;
     }
 
     public static int getReadyColor() {
-        return HandyIndicatorConfig.instance().crafterReadyColor & 0x00FFFFFF;
+        return HandyIndicatorConfig.get().crafterReadyColor & 0x00FFFFFF;
     }
 
     public static boolean isBlockEnabled(Block block) {
-        HandyIndicatorConfig config = HandyIndicatorConfig.instance();
+        HandyIndicatorConfig config = HandyIndicatorConfig.get();
         if (!config.enabled) return false;
 
         if (block == Blocks.HOPPER) return config.hopperEnabled;

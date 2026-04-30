@@ -1,51 +1,77 @@
 package dev.handy.mods.handyindicator;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import dev.isxander.yacl3.config.v2.api.ConfigClassHandler;
+import dev.isxander.yacl3.config.v2.api.SerialEntry;
+import dev.isxander.yacl3.config.v2.api.serializer.GsonConfigSerializerBuilder;
 import net.fabricmc.loader.api.FabricLoader;
+import net.minecraft.resources.Identifier;
 
 import java.awt.Color;
 import java.io.IOException;
-import java.io.Reader;
-import java.io.Writer;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-public class HandyIndicatorConfig {
+public final class HandyIndicatorConfig {
 
-    private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
-    private static final Path CONFIG_PATH =
-            FabricLoader.getInstance().getConfigDir().resolve("handyindicator.json");
+    private static final Path CONFIG_PATH = FabricLoader.getInstance()
+            .getConfigDir().resolve(HandyIndicator.MOD_ID + ".json");
     // Legacy path from before the v2.1 mod-id rename (container-indicator → handyindicator).
-    // Read once on first load so user settings carry over; safe to remove after a few releases.
-    private static final Path LEGACY_CONFIG_PATH =
-            FabricLoader.getInstance().getConfigDir().resolve("container-indicator.json");
+    // Migrated once on first load so user settings carry over; safe to remove after a few releases.
+    private static final Path LEGACY_CONFIG_PATH = FabricLoader.getInstance()
+            .getConfigDir().resolve("container-indicator.json");
 
-    private static HandyIndicatorConfig instance = new HandyIndicatorConfig();
+    private static HandyIndicatorConfig INSTANCE;
 
-    public boolean enabled = true;
-    public int indicatorColor = 0x6FA9B4;
-    public int fuelColor = 0xCF8261;
-    public boolean hopperEnabled = true;
-    public boolean dispenserEnabled = true;
-    public boolean dropperEnabled = true;
-    public boolean barrelEnabled = true;
-    public boolean crafterEnabled = true;
-    public boolean furnaceEnabled = true;
-    public boolean blastFurnaceEnabled = true;
-    public boolean smokerEnabled = true;
-    public boolean decoratedPotEnabled = true;
-    public boolean chestEnabled = true;
-    public boolean trappedChestEnabled = true;
-    public boolean copperChestEnabled = true;
-    public boolean shulkerBoxEnabled = true;
-    public int crafterReadyColor = 0x6FDE74;  // Green for "ready"
+    @SerialEntry public boolean enabled = true;
+    @SerialEntry public int indicatorColor = 0x6FA9B4;
+    @SerialEntry public int fuelColor = 0xCF8261;
+    @SerialEntry public int crafterReadyColor = 0x6FDE74;  // Green for "ready"
+    @SerialEntry public boolean hopperEnabled = true;
+    @SerialEntry public boolean dispenserEnabled = true;
+    @SerialEntry public boolean dropperEnabled = true;
+    @SerialEntry public boolean barrelEnabled = true;
+    @SerialEntry public boolean crafterEnabled = true;
+    @SerialEntry public boolean furnaceEnabled = true;
+    @SerialEntry public boolean blastFurnaceEnabled = true;
+    @SerialEntry public boolean smokerEnabled = true;
+    @SerialEntry public boolean decoratedPotEnabled = true;
+    @SerialEntry public boolean chestEnabled = true;
+    @SerialEntry public boolean trappedChestEnabled = true;
+    @SerialEntry public boolean copperChestEnabled = true;
+    @SerialEntry public boolean shulkerBoxEnabled = true;
 
-    public static HandyIndicatorConfig instance() {
-        return instance;
+    public HandyIndicatorConfig() {}
+
+    public static HandyIndicatorConfig get() {
+        if (INSTANCE == null) {
+            load();
+        }
+        return INSTANCE;
     }
 
     public static void load() {
+        migrateLegacyConfigIfNeeded();
+        if (yaclLoaded()) {
+            YaclStorage.HANDLER.load();
+            INSTANCE = YaclStorage.HANDLER.instance();
+        } else {
+            // Without YACL, the config screen can't be opened anyway — run with defaults.
+            // Any previously persisted config sits on disk and gets picked up the moment YACL is installed.
+            INSTANCE = new HandyIndicatorConfig();
+        }
+    }
+
+    public static void save() {
+        if (yaclLoaded()) {
+            YaclStorage.HANDLER.save();
+        }
+    }
+
+    private static boolean yaclLoaded() {
+        return FabricLoader.getInstance().isModLoaded("yet_another_config_lib_v3");
+    }
+
+    private static void migrateLegacyConfigIfNeeded() {
         if (!Files.exists(CONFIG_PATH) && Files.exists(LEGACY_CONFIG_PATH)) {
             try {
                 Files.copy(LEGACY_CONFIG_PATH, CONFIG_PATH);
@@ -55,37 +81,6 @@ public class HandyIndicatorConfig {
                 HandyIndicator.LOGGER.warn("[Handy Indicator] Failed to migrate legacy config from {}",
                         LEGACY_CONFIG_PATH.getFileName(), e);
             }
-        }
-
-        if (Files.exists(CONFIG_PATH)) {
-            try (Reader reader = Files.newBufferedReader(CONFIG_PATH)) {
-                instance = GSON.fromJson(reader, HandyIndicatorConfig.class);
-                if (instance == null) {
-                    instance = new HandyIndicatorConfig();
-                }
-            } catch (IOException e) {
-                HandyIndicator.LOGGER.error("[Handy Indicator] Failed to load config, using defaults", e);
-                instance = new HandyIndicatorConfig();
-            }
-        } else {
-            // No config on disk yet — write the defaults once so the user has
-            // a file to edit. Existing files must NOT be rewritten here:
-            // - It rewrites mtime every startup (annoying for users tracking
-            //   the dotfile in git or watching it for hot-reload).
-            // - It races with manual edits if the user is mid-save when the
-            //   game starts.
-            save();
-        }
-    }
-
-    public static void save() {
-        try {
-            Files.createDirectories(CONFIG_PATH.getParent());
-            try (Writer writer = Files.newBufferedWriter(CONFIG_PATH)) {
-                GSON.toJson(instance, writer);
-            }
-        } catch (IOException e) {
-            HandyIndicator.LOGGER.error("[Handy Indicator] Failed to save config", e);
         }
     }
 
@@ -99,5 +94,21 @@ public class HandyIndicatorConfig {
 
     public Color getReadyColorObj() {
         return new Color(crafterReadyColor);
+    }
+
+    /**
+     * Holds the YACL handler. Inner-class loading is lazy in the JVM, so this class is only
+     * resolved when {@link #yaclLoaded()} is true and we actually reference it. That keeps
+     * YACL classes off the always-executed code path and avoids a {@code NoClassDefFoundError}
+     * for users (or dedicated servers) running without YACL installed.
+     */
+    private static final class YaclStorage {
+        static final ConfigClassHandler<HandyIndicatorConfig> HANDLER =
+                ConfigClassHandler.createBuilder(HandyIndicatorConfig.class)
+                        .id(Identifier.fromNamespaceAndPath(HandyIndicator.MOD_ID, "config"))
+                        .serializer(cfg -> GsonConfigSerializerBuilder.create(cfg)
+                                .setPath(CONFIG_PATH)
+                                .build())
+                        .build();
     }
 }

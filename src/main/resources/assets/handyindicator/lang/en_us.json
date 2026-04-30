@@ -1,0 +1,31 @@
+{
+	"config.handyindicator.title": "Handy Indicator",
+
+	"config.handyindicator.category.general": "General",
+	"config.handyindicator.category.blocks": "Blocks",
+
+	"config.handyindicator.group.standard": "Standard Containers",
+	"config.handyindicator.group.chests": "Chests",
+	"config.handyindicator.group.furnaces": "Furnaces",
+
+	"config.handyindicator.enabled": "Enabled",
+	"config.handyindicator.enabled.desc": "Master toggle for all container indicators.",
+	"config.handyindicator.indicatorColor": "Indicator Color",
+	"config.handyindicator.indicatorColor.desc": "Color of the indicator on standard containers.",
+	"config.handyindicator.fuelColor": "Fuel Indicator Color",
+	"config.handyindicator.fuelColor.desc": "Color of the fuel indicator on furnace-type blocks.",
+
+	"config.handyindicator.hopper": "Hopper",
+	"config.handyindicator.dispenser": "Dispenser",
+	"config.handyindicator.dropper": "Dropper",
+	"config.handyindicator.barrel": "Barrel",
+	"config.handyindicator.crafter": "Crafter",
+	"config.handyindicator.decoratedPot": "Decorated Pot",
+	"config.handyindicator.chest": "Chest",
+	"config.handyindicator.trappedChest": "Trapped Chest",
+	"config.handyindicator.copperChest": "Copper Chest",
+	"config.handyindicator.copperChest.desc": "Covers all copper chest variants (oxidized, waxed, etc.).",
+	"config.handyindicator.furnace": "Furnace",
+	"config.handyindicator.blastFurnace": "Blast Furnace",
+	"config.handyindicator.smoker": "Smoker"
+}

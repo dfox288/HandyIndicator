@@ -26,7 +26,15 @@ public abstract class CrafterBlockMixin extends Block {
 
     @Inject(method = "<init>", at = @At("RETURN"))
     private void handyindicator$setDefaultProperties(BlockBehaviour.Properties properties, CallbackInfo ci) {
-        this.registerDefaultState(this.defaultBlockState().setValue(HandyIndicator.HAS_ITEMS, false));
-        this.registerDefaultState(this.defaultBlockState().setValue(HandyIndicator.HAS_ITEMS_READY, false));
+        // Chain both setValue calls into a single registerDefaultState. Each
+        // registerDefaultState call resolves its arg from defaultBlockState()
+        // *before* assigning, so calling it twice would have the second call
+        // read the original (un-mutated) defaultBlockState and silently
+        // overwrite the first call's mutation. Worked by accident here only
+        // because both properties default to false — break the moment either
+        // default changes. Mirrors the pattern in ShulkerBoxBlockMixin.
+        this.registerDefaultState(this.defaultBlockState()
+                .setValue(HandyIndicator.HAS_ITEMS, false)
+                .setValue(HandyIndicator.HAS_ITEMS_READY, false));
     }
 }

@@ -66,26 +66,35 @@ public final class ContainerStateHelper {
     }
 
     public static void updateHasItems(BlockEntity entity, Container container) {
-        if (entity.getLevel() == null || entity.getLevel().isClientSide()) {
-            return;
+        updateHasItemsCore(entity, () -> anyNonEmpty(container));
+    }
+
+    private static boolean anyNonEmpty(Container container) {
+        for (int i = 0; i < container.getContainerSize(); i++) {
+            if (!container.getItem(i).isEmpty()) return true;
         }
+        return false;
+    }
+
+    private static boolean anyNonEmpty(List<ItemStack> inventory) {
+        for (ItemStack stack : inventory) {
+            if (!stack.isEmpty()) return true;
+        }
+        return false;
+    }
+
+    /**
+     * Common path for the two updateHasItems overloads. Reads the block's HAS_ITEMS
+     * property, evaluates the supplied non-empty check (lazily — only fires when the
+     * block is enabled), and writes back if the value changed.
+     */
+    private static void updateHasItemsCore(BlockEntity entity, java.util.function.BooleanSupplier hasContents) {
+        if (entity.getLevel() == null || entity.getLevel().isClientSide()) return;
 
         BlockState state = entity.getBlockState();
-        if (!state.hasProperty(HandyIndicator.HAS_ITEMS)) {
-            return;
-        }
+        if (!state.hasProperty(HandyIndicator.HAS_ITEMS)) return;
 
-        Block block = state.getBlock();
-        boolean hasItems = false;
-
-        if (HandyIndicator.isBlockEnabled(block)) {
-            for (int i = 0; i < container.getContainerSize(); i++) {
-                if (!container.getItem(i).isEmpty()) {
-                    hasItems = true;
-                    break;
-                }
-            }
-        }
+        boolean hasItems = HandyIndicator.isBlockEnabled(state.getBlock()) && hasContents.getAsBoolean();
 
         boolean currentValue = state.getValue(HandyIndicator.HAS_ITEMS);
         if (currentValue != hasItems) {
@@ -203,36 +212,7 @@ public final class ContainerStateHelper {
     }
 
     public static void updateHasItems(BlockEntity entity, List<ItemStack> inventory) {
-        if (entity.getLevel() == null || entity.getLevel().isClientSide()) {
-            return;
-        }
-
-        BlockState state = entity.getBlockState();
-        if (!state.hasProperty(HandyIndicator.HAS_ITEMS)) {
-            return;
-        }
-
-        Block block = state.getBlock();
-        boolean hasItems = false;
-
-        if (HandyIndicator.isBlockEnabled(block)) {
-            for (ItemStack stack : inventory) {
-                if (!stack.isEmpty()) {
-                    hasItems = true;
-                    break;
-                }
-            }
-        }
-
-        boolean currentValue = state.getValue(HandyIndicator.HAS_ITEMS);
-        if (currentValue != hasItems) {
-            HandyIndicator.LOGGER.debug("{} has_items: {} -> {} (inventory size: {})", entity.getBlockPos(), currentValue, hasItems, inventory.size());
-            entity.getLevel().setBlock(
-                    entity.getBlockPos(),
-                    state.setValue(HandyIndicator.HAS_ITEMS, hasItems),
-                    Block.UPDATE_CLIENTS
-            );
-        }
+        updateHasItemsCore(entity, () -> anyNonEmpty(inventory));
     }
 
     public static void updateCrafterReadyState(BlockEntity entity, NonNullList<ItemStack> items) {

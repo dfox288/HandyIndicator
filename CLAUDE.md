@@ -6,13 +6,13 @@ A Fabric mod that shows subtle visual indicators on container blocks (chests, ho
 
 ## Tech Stack
 
-- **Minecraft**: 26.1 (first unobfuscated version — no mappings needed)
-- **Fabric Loader**: 0.18.4
-- **Fabric API**: 0.144.0+26.1
+- **Minecraft**: 26.2-snapshot-5 (unobfuscated — no mappings needed)
+- **Fabric Loader**: 0.19.2
+- **Fabric API**: 0.147.1+26.2
 - **Fabric Loom**: 1.15.5
 - **Java**: 25
-- **YACL**: 3.9.0+26.1-fabric (soft dependency, via Modrinth Maven `maven.modrinth:yacl`)
-- **ModMenu**: 18.0.0-alpha.6 (soft dependency)
+- **YACL**: 3.9.2+26.1-fabric (soft dependency, via Modrinth Maven `maven.modrinth:yacl`)
+- **ModMenu**: 18.0.0-alpha.8 (soft dependency)
 
 ## Build
 

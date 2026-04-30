@@ -67,8 +67,15 @@ public class HandyIndicatorConfig {
                 HandyIndicator.LOGGER.error("[Handy Indicator] Failed to load config, using defaults", e);
                 instance = new HandyIndicatorConfig();
             }
+        } else {
+            // No config on disk yet — write the defaults once so the user has
+            // a file to edit. Existing files must NOT be rewritten here:
+            // - It rewrites mtime every startup (annoying for users tracking
+            //   the dotfile in git or watching it for hot-reload).
+            // - It races with manual edits if the user is mid-save when the
+            //   game starts.
+            save();
         }
-        save();
     }
 
     public static void save() {

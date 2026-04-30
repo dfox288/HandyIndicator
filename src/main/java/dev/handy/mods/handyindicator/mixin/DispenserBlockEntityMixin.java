@@ -18,12 +18,12 @@ public abstract class DispenserBlockEntityMixin {
     private NonNullList<ItemStack> items;
 
     @Inject(method = "setItems(Lnet/minecraft/core/NonNullList;)V", at = @At("TAIL"))
-    private void onSetItems(NonNullList<ItemStack> items, CallbackInfo ci) {
+    private void handyindicator$onSetItems(NonNullList<ItemStack> items, CallbackInfo ci) {
         ContainerStateHelper.updateHasItems((DispenserBlockEntity) (Object) this, this.items);
     }
 
     @Inject(method = "loadAdditional(Lnet/minecraft/world/level/storage/ValueInput;)V", at = @At("TAIL"))
-    private void onLoadAdditional(ValueInput input, CallbackInfo ci) {
+    private void handyindicator$onLoadAdditional(ValueInput input, CallbackInfo ci) {
         ContainerStateHelper.updateHasItems((DispenserBlockEntity) (Object) this, this.items);
     }
 }

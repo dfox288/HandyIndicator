@@ -19,12 +19,12 @@ public abstract class HopperBlockMixin extends Block {
     }
 
     @Inject(method = "createBlockStateDefinition(Lnet/minecraft/world/level/block/state/StateDefinition$Builder;)V", at = @At("TAIL"))
-    private void addHasItemsProperty(StateDefinition.Builder<Block, BlockState> builder, CallbackInfo ci) {
+    private void handyindicator$addHasItemsProperty(StateDefinition.Builder<Block, BlockState> builder, CallbackInfo ci) {
         builder.add(HandyIndicator.HAS_ITEMS);
     }
 
     @Inject(method = "<init>(Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;)V", at = @At("RETURN"))
-    private void setDefaultHasItems(BlockBehaviour.Properties properties, CallbackInfo ci) {
+    private void handyindicator$setDefaultHasItems(BlockBehaviour.Properties properties, CallbackInfo ci) {
         this.registerDefaultState(this.defaultBlockState().setValue(HandyIndicator.HAS_ITEMS, false));
     }
 }

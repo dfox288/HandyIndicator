@@ -52,7 +52,7 @@ public class HandyIndicator implements ModInitializer {
             pendingRefresh.clear();
         });
 
-        LOGGER.info("[Handy Indicator] Loaded!");
+        LOGGER.info("Loaded!");
     }
 
     private void processRefreshQueue(MinecraftServer server) {
@@ -63,7 +63,7 @@ public class HandyIndicator implements ModInitializer {
                 level.getChunkSource().chunkMap.forEachReadyToSendChunk(pendingRefresh::add);
             }
             if (!pendingRefresh.isEmpty()) {
-                LOGGER.info("[Handy Indicator] Refreshing {} chunks...", pendingRefresh.size());
+                LOGGER.info("Refreshing {} chunks...", pendingRefresh.size());
             }
         }
 

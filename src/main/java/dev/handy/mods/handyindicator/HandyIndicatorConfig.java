@@ -75,10 +75,10 @@ public final class HandyIndicatorConfig {
         if (!Files.exists(CONFIG_PATH) && Files.exists(LEGACY_CONFIG_PATH)) {
             try {
                 Files.copy(LEGACY_CONFIG_PATH, CONFIG_PATH);
-                HandyIndicator.LOGGER.info("[Handy Indicator] Migrated config from {} to {}",
+                HandyIndicator.LOGGER.info("Migrated config from {} to {}",
                         LEGACY_CONFIG_PATH.getFileName(), CONFIG_PATH.getFileName());
             } catch (IOException e) {
-                HandyIndicator.LOGGER.warn("[Handy Indicator] Failed to migrate legacy config from {}",
+                HandyIndicator.LOGGER.warn("Failed to migrate legacy config from {}",
                         LEGACY_CONFIG_PATH.getFileName(), e);
             }
         }

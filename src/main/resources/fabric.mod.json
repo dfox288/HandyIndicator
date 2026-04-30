@@ -18,10 +18,10 @@
             "dev.handy.mods.handyindicator.HandyIndicator"
         ],
         "client": [
-            "dev.handy.mods.handyindicator.HandyIndicatorClient"
+            "dev.handy.mods.handyindicator.client.HandyIndicatorClient"
         ],
         "modmenu": [
-            "dev.handy.mods.handyindicator.HandyIndicatorModMenu"
+            "dev.handy.mods.handyindicator.client.HandyIndicatorModMenu"
         ]
     },
     "mixins": [

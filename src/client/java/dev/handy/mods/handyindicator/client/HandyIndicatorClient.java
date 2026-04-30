@@ -1,5 +1,6 @@
-package dev.handy.mods.handyindicator;
+package dev.handy.mods.handyindicator.client;
 
+import dev.handy.mods.handyindicator.HandyIndicator;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.rendering.v1.BlockColorRegistry;
 import net.minecraft.client.color.block.BlockTintSource;

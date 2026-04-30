@@ -1,5 +1,6 @@
 package dev.handy.mods.handyindicator;
 
+import dev.handy.mods.handyindicator.config.HandyIndicatorConfig;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerChunkEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;

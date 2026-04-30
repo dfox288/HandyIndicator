@@ -1,5 +1,8 @@
-package dev.handy.mods.handyindicator;
+package dev.handy.mods.handyindicator.client.config;
 
+import dev.handy.mods.handyindicator.ContainerStateHelper;
+import dev.handy.mods.handyindicator.HandyIndicator;
+import dev.handy.mods.handyindicator.config.HandyIndicatorConfig;
 import dev.isxander.yacl3.api.*;
 import dev.isxander.yacl3.api.controller.ColorControllerBuilder;
 import dev.isxander.yacl3.api.controller.TickBoxControllerBuilder;
@@ -16,7 +19,7 @@ public class HandyIndicatorConfigScreen {
 
     private static final String I18N_PREFIX = "config.handyindicator.";
 
-    static Screen makeScreen(Screen parent) {
+    public static Screen makeScreen(Screen parent) {
         HandyIndicatorConfig defaults = new HandyIndicatorConfig();
         HandyIndicatorConfig config = HandyIndicatorConfig.get();
 

@@ -1,5 +1,6 @@
-package dev.handy.mods.handyindicator;
+package dev.handy.mods.handyindicator.config;
 
+import dev.handy.mods.handyindicator.HandyIndicator;
 import dev.isxander.yacl3.config.v2.api.ConfigClassHandler;
 import dev.isxander.yacl3.config.v2.api.SerialEntry;
 import dev.isxander.yacl3.config.v2.api.serializer.GsonConfigSerializerBuilder;

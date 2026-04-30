@@ -1,7 +1,8 @@
-package dev.handy.mods.handyindicator;
+package dev.handy.mods.handyindicator.client;
 
 import com.terraformersmc.modmenu.api.ConfigScreenFactory;
 import com.terraformersmc.modmenu.api.ModMenuApi;
+import dev.handy.mods.handyindicator.client.config.HandyIndicatorConfigScreen;
 import net.fabricmc.loader.api.FabricLoader;
 
 public class HandyIndicatorModMenu implements ModMenuApi {

@@ -26,7 +26,10 @@
     },
     "mixins": [
         "handyindicator.mixins.json",
-        "handyindicator-client.mixins.json"
+        {
+            "config": "handyindicator-client.mixins.json",
+            "environment": "client"
+        }
     ],
     "depends": {
         "fabricloader": ">=0.19.2",

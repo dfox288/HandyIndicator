@@ -6,7 +6,6 @@ import dev.isxander.yacl3.config.v2.api.serializer.GsonConfigSerializerBuilder;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.resources.Identifier;
 
-import java.awt.Color;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -82,18 +81,6 @@ public final class HandyIndicatorConfig {
                         LEGACY_CONFIG_PATH.getFileName(), e);
             }
         }
-    }
-
-    public Color getIndicatorColorObj() {
-        return new Color(indicatorColor);
-    }
-
-    public Color getFuelColorObj() {
-        return new Color(fuelColor);
-    }
-
-    public Color getReadyColorObj() {
-        return new Color(crafterReadyColor);
     }
 
     /**

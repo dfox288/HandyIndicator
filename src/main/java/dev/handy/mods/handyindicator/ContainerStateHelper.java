@@ -48,20 +48,12 @@ public final class ContainerStateHelper {
             if (state.hasProperty(HandyIndicator.HAS_ITEMS_READY)) {
                 if (be instanceof CrafterBlockEntity crafter) {
                     crafterCount++;
-                    NonNullList<ItemStack> items = crafter.getItems();
-                    StringBuilder itemLog = new StringBuilder("[Handy Indicator] Found crafter at " + be.getBlockPos() + " items.size=" + items.size() + " [");
-                    for (int i = 0; i < Math.min(10, items.size()); i++) {
-                        ItemStack stack = items.get(i);
-                        itemLog.append("slot ").append(i).append(": ").append(stack.isEmpty() ? "EMPTY" : stack.getItem().toString()).append(", ");
-                    }
-                    itemLog.append("]");
-                    HandyIndicator.LOGGER.info(itemLog.toString());
-                    updateCrafterReadyState(be, items);
+                    updateCrafterReadyState(be, crafter.getItems());
                 }
             }
         }
         if (crafterCount > 0) {
-            HandyIndicator.LOGGER.info("[Handy Indicator] Refreshed {} crafters in chunk {}", crafterCount, chunk.getPos());
+            HandyIndicator.LOGGER.debug("[Handy Indicator] Refreshed {} crafters in chunk {}", crafterCount, chunk.getPos());
         }
     }
 
@@ -234,7 +226,7 @@ public final class ContainerStateHelper {
 
         boolean currentValue = state.getValue(HandyIndicator.HAS_ITEMS);
         if (currentValue != hasItems) {
-            HandyIndicator.LOGGER.info("[Handy Indicator] {} has_items: {} -> {} (inventory size: {})", entity.getBlockPos(), currentValue, hasItems, inventory.size());
+            HandyIndicator.LOGGER.debug("[Handy Indicator] {} has_items: {} -> {} (inventory size: {})", entity.getBlockPos(), currentValue, hasItems, inventory.size());
             entity.getLevel().setBlock(
                     entity.getBlockPos(),
                     state.setValue(HandyIndicator.HAS_ITEMS, hasItems),
@@ -278,7 +270,7 @@ public final class ContainerStateHelper {
 
         boolean currentValue = state.getValue(HandyIndicator.HAS_ITEMS_READY);
         if (currentValue != isReady) {
-            HandyIndicator.LOGGER.info("[Handy Indicator] Crafter at {} ready state: {} -> {}", entity.getBlockPos(), currentValue, isReady);
+            HandyIndicator.LOGGER.debug("[Handy Indicator] Crafter at {} ready state: {} -> {}", entity.getBlockPos(), currentValue, isReady);
             entity.getLevel().setBlock(
                     entity.getBlockPos(),
                     state.setValue(HandyIndicator.HAS_ITEMS_READY, isReady),

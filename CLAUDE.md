@@ -30,7 +30,7 @@ Uses `splitEnvironmentSourceSets()`:
 - `src/main/` — shared code: blockstate properties, mixins, config, state helper
 - `src/client/` — client-only: render layers, color providers, config screen, ModMenu integration
 
-Package: `dev.containerindicator`
+Package: `dev.handy.mods.handyindicator` (mod-id: `handyindicator`)
 
 ## Dependencies
 
@@ -46,7 +46,7 @@ YACL config screen with:
 - **General**: master toggle, indicator color, fuel indicator color
 - **Blocks**: per-block toggles grouped by category (standard containers, chests, furnaces)
 
-Config class: `ContainerIndicatorConfig` — JSON file at `config/container-indicator.json`
+Config class: `HandyIndicatorConfig` — JSON file at `config/handyindicator.json` (with one-shot migration from the legacy `config/container-indicator.json` path on first launch).
 
 On config save, the mod forces chunk re-renders and refreshes all container blockstates.
 

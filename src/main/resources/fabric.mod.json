@@ -1,6 +1,6 @@
 {
     "schemaVersion": 1,
-    "id": "container-indicator",
+    "id": "handyindicator",
     "version": "${version}",
     "name": "Handy Indicator",
     "description": "Shows a subtle visual indicator on container blocks (chests, trapped chests, copper chests, hoppers, dispensers, droppers, barrels, crafters, furnaces, decorated pots, shulker boxes) when they contain items. Fully configurable with per-block toggles and custom indicator colors via YACL.",
@@ -10,23 +10,23 @@
         "sources": "https://github.com/dfox288/HandyIndicator",
         "issues": "https://github.com/dfox288/HandyIndicator/issues"
     },
-    "icon": "assets/container_indicator/icon.png",
+    "icon": "assets/handyindicator/icon.png",
     "license": "MIT",
     "environment": "*",
     "entrypoints": {
         "main": [
-            "dev.containerindicator.ContainerIndicator"
+            "dev.handy.mods.handyindicator.HandyIndicator"
         ],
         "client": [
-            "dev.containerindicator.ContainerIndicatorClient"
+            "dev.handy.mods.handyindicator.HandyIndicatorClient"
         ],
         "modmenu": [
-            "dev.containerindicator.ContainerIndicatorModMenu"
+            "dev.handy.mods.handyindicator.HandyIndicatorModMenu"
         ]
     },
     "mixins": [
-        "container-indicator.mixins.json",
-        "container-indicator-client.mixins.json"
+        "handyindicator.mixins.json",
+        "handyindicator-client.mixins.json"
     ],
     "depends": {
         "fabricloader": ">=0.19.2",

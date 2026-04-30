@@ -1,5 +1,12 @@
 # Changelog
 
+## 2.1.0-beta.3
+
+### Breaking
+- **Mod ID renamed from `container-indicator` to `handyindicator`** to match the rest of the Handy series convention. Existing config at `config/container-indicator.json` is migrated automatically on first launch — no settings lost.
+- Internal package moved from `dev.containerindicator` to `dev.handy.mods.handyindicator`. No user-facing impact unless another mod was depending on internal classes.
+- Asset namespace moved from `container_indicator:*` to `handyindicator:*`. Resource packs targeting the old namespace need to update.
+
 ## 2.1.0-beta.1
 
 - Preview build for Minecraft **26.2 snapshots** (tested against 26.2-snapshot-3)

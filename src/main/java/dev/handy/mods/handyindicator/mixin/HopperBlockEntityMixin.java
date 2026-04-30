@@ -1,13 +1,9 @@
 package dev.handy.mods.handyindicator.mixin;
 
 import dev.handy.mods.handyindicator.ContainerStateHelper;
-import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
-import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.HopperBlockEntity;
-import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.ValueInput;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -37,8 +33,13 @@ public abstract class HopperBlockEntityMixin {
         ContainerStateHelper.updateHasItems((HopperBlockEntity) (Object) this, this.items);
     }
 
-    @Inject(method = "pushItemsTick", at = @At("TAIL"))
-    private static void handyindicator$afterTick(Level level, BlockPos pos, BlockState state, HopperBlockEntity hopper, CallbackInfo ci) {
-        ContainerStateHelper.updateHasItems(hopper, (Container) hopper);
-    }
+    // No pushItemsTick inject. Every actual transfer goes through setItem or
+    // removeItem, both of which already trigger updateHasItems above. Hooking
+    // pushItemsTick on top of that meant a per-tick (every 8 game ticks per
+    // hopper) inventory scan + state-compare for every hopper in every loaded
+    // chunk, almost all of which were no-ops because nothing had changed.
+    // For a 50+ hopper sorting farm that's hundreds of redundant scans per
+    // second. The corner case it covered — other mods mutating `items` via the
+    // raw list reference without going through setItem — is rare and resolves
+    // on the next vanilla mutation anyway.
 }

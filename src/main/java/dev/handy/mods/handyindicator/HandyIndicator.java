@@ -33,6 +33,10 @@ public class HandyIndicator implements ModInitializer {
     public static final BooleanProperty HAS_FUEL = BooleanProperty.create("has_fuel");
     public static final BooleanProperty HAS_ITEMS_READY = BooleanProperty.create("has_items_ready");
 
+    /** Mask that drops the alpha byte from a packed ARGB int — config stores RGB only,
+     *  but YACL's color picker hands back full ARGB. AND with this on every save. */
+    public static final int RGB_MASK = 0x00FFFFFF;
+
     private static final int CHUNKS_PER_TICK = 10;
     /**
      * Pending chunk refreshes, processed in batches of {@link #CHUNKS_PER_TICK} per server tick.
@@ -87,15 +91,15 @@ public class HandyIndicator implements ModInitializer {
     }
 
     public static int getIndicatorColor() {
-        return HandyIndicatorConfig.get().indicatorColor & 0x00FFFFFF;
+        return HandyIndicatorConfig.get().indicatorColor & RGB_MASK;
     }
 
     public static int getFuelColor() {
-        return HandyIndicatorConfig.get().fuelColor & 0x00FFFFFF;
+        return HandyIndicatorConfig.get().fuelColor & RGB_MASK;
     }
 
     public static int getReadyColor() {
-        return HandyIndicatorConfig.get().crafterReadyColor & 0x00FFFFFF;
+        return HandyIndicatorConfig.get().crafterReadyColor & RGB_MASK;
     }
 
     /** Reads the per-block toggle flag from a config snapshot. */

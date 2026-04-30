@@ -15,6 +15,44 @@ import java.util.List;
 
 public final class OverlayQuadFactory {
 
+    /**
+     * Coordinate conventions used throughout this file.
+     *
+     * <p>All quad coordinates are in <b>block-pixel space</b>: 16 units per block.
+     * The standard cube spans (0,0,0) to (16,16,16); a chest's lid spans Y=8..16.
+     *
+     * <p>Overlay quads are slightly offset from the underlying surface to prevent
+     * z-fighting:
+     * <ul>
+     *   <li>{@link #OVERLAY_OFFSET}: the inset/outset distance applied to each
+     *       overlay face relative to its underlying surface (e.g. UP overlays sit
+     *       at Y=16.01, side strips push out by 0.01 so they peek past the side
+     *       face).
+     *   <li>{@link #OVERLAY_THICKNESS}: the overlay quad's depth in its normal
+     *       direction. Faces with thickness < 0.001 are visually flat but still
+     *       cleanly tessellated.
+     * </ul>
+     *
+     * <p>Block height landmarks frequently referenced:
+     * <ul>
+     *   <li>{@link #CHEST_LID_TOP}: Y=9, the chest's lid top edge.
+     *   <li>{@link #CHEST_BODY_TOP}: Y=8, the chest's body top (where the lid sits on top).
+     *   <li>{@link #CRAFTER_READY_Y}: Y=8.5, vertical center of the crafter ready indicator.
+     * </ul>
+     *
+     * <p>Most constructor calls in this file still use the literal coordinates
+     * for the per-quad endpoint values (the (x1,y1,z1)-(x2,y2,z2) box) because
+     * each quad's exact placement is its own thing — naming every coordinate
+     * would obscure which faces line up with which. The constants above are
+     * named because they recur as semantic landmarks across many quads, not as
+     * mechanical replacements for every literal.
+     */
+    private static final float OVERLAY_OFFSET = 0.01f;
+    private static final float OVERLAY_THICKNESS = 0.01f;
+    private static final float CHEST_LID_TOP = 9f;
+    private static final float CHEST_BODY_TOP = 8f;
+    private static final float CRAFTER_READY_Y = 8.5f;
+
     private OverlayQuadFactory() {}
 
     // --- Public factory methods ---

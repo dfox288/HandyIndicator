@@ -18,7 +18,10 @@ import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.chunk.LevelChunk;
 
 import java.util.ArrayDeque;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Queue;
+import java.util.function.Predicate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -95,32 +98,74 @@ public class HandyIndicator implements ModInitializer {
         return HandyIndicatorConfig.get().crafterReadyColor & 0x00FFFFFF;
     }
 
+    /** Reads the per-block toggle flag from a config snapshot. */
+    @FunctionalInterface
+    private interface ConfigToggle {
+        boolean enabled(HandyIndicatorConfig config);
+    }
+
+    /**
+     * Map from exact vanilla block instance to its config toggle. Initialized lazily
+     * from {@link #exactToggles()} on first call, after vanilla {@code Blocks} has
+     * finished bootstrap (we'd NPE if this ran during static init since the class can
+     * load before vanilla registries do).
+     */
+    private static volatile Map<Block, ConfigToggle> EXACT_TOGGLES;
+
+    /**
+     * Modded-block fallback rules: instanceof check + toggle. Iterated when a block
+     * isn't in the exact-block map. Order matters only weakly here — none of these
+     * vanilla parent classes overlap. Final fallback ({@code true}) keeps any
+     * unknown block enabled because reaching this code at all means the block has
+     * one of our injected blockstate properties, which means a mixin already
+     * targeted it.
+     */
+    private static final Map<Predicate<Block>, ConfigToggle> FALLBACK_TOGGLES = Map.of(
+            b -> b instanceof BarrelBlock,         c -> c.barrelEnabled,
+            b -> b instanceof ChestBlock,          c -> c.chestEnabled,
+            b -> b instanceof AbstractFurnaceBlock, c -> c.furnaceEnabled,
+            b -> b instanceof DispenserBlock,      c -> c.dispenserEnabled,
+            b -> b instanceof HopperBlock,         c -> c.hopperEnabled,
+            b -> b instanceof ShulkerBoxBlock,     c -> c.shulkerBoxEnabled);
+
+    private static Map<Block, ConfigToggle> exactToggles() {
+        Map<Block, ConfigToggle> m = EXACT_TOGGLES;
+        if (m != null) return m;
+        synchronized (HandyIndicator.class) {
+            if (EXACT_TOGGLES != null) return EXACT_TOGGLES;
+            Map<Block, ConfigToggle> built = new HashMap<>();
+            built.put(Blocks.HOPPER,        c -> c.hopperEnabled);
+            built.put(Blocks.DISPENSER,     c -> c.dispenserEnabled);
+            built.put(Blocks.DROPPER,       c -> c.dropperEnabled);
+            built.put(Blocks.BARREL,        c -> c.barrelEnabled);
+            built.put(Blocks.CRAFTER,       c -> c.crafterEnabled);
+            built.put(Blocks.FURNACE,       c -> c.furnaceEnabled);
+            built.put(Blocks.BLAST_FURNACE, c -> c.blastFurnaceEnabled);
+            built.put(Blocks.SMOKER,        c -> c.smokerEnabled);
+            built.put(Blocks.DECORATED_POT, c -> c.decoratedPotEnabled);
+            built.put(Blocks.CHEST,         c -> c.chestEnabled);
+            built.put(Blocks.TRAPPED_CHEST, c -> c.trappedChestEnabled);
+            // 26.2 consolidated copper variants into a WeatheringCopperCollection;
+            // asList() yields all 8 (4 weather stages × waxed/unwaxed).
+            for (Block copper : Blocks.COPPER_CHEST.asList()) {
+                built.put(copper, c -> c.copperChestEnabled);
+            }
+            EXACT_TOGGLES = Map.copyOf(built);
+            return EXACT_TOGGLES;
+        }
+    }
+
     public static boolean isBlockEnabled(Block block) {
         HandyIndicatorConfig config = HandyIndicatorConfig.get();
         if (!config.enabled) return false;
 
-        if (block == Blocks.HOPPER) return config.hopperEnabled;
-        if (block == Blocks.DISPENSER) return config.dispenserEnabled;
-        if (block == Blocks.DROPPER) return config.dropperEnabled;
-        if (block == Blocks.BARREL) return config.barrelEnabled;
-        if (block == Blocks.CRAFTER) return config.crafterEnabled;
-        if (block == Blocks.FURNACE) return config.furnaceEnabled;
-        if (block == Blocks.BLAST_FURNACE) return config.blastFurnaceEnabled;
-        if (block == Blocks.SMOKER) return config.smokerEnabled;
-        if (block == Blocks.DECORATED_POT) return config.decoratedPotEnabled;
-        if (block == Blocks.CHEST) return config.chestEnabled;
-        if (block == Blocks.TRAPPED_CHEST) return config.trappedChestEnabled;
-        // 26.2 consolidated copper variants into a WeatheringCopperCollection;
-        // asList() yields all 8 (4 weather stages × waxed/unwaxed).
-        if (Blocks.COPPER_CHEST.asList().contains(block)) return config.copperChestEnabled;
+        ConfigToggle exact = exactToggles().get(block);
+        if (exact != null) return exact.enabled(config);
 
-        // Fallback instanceof checks for modded blocks extending vanilla classes
-        if (block instanceof BarrelBlock) return config.barrelEnabled;
-        if (block instanceof ChestBlock) return config.chestEnabled;
-        if (block instanceof AbstractFurnaceBlock) return config.furnaceEnabled;
-        if (block instanceof DispenserBlock) return config.dispenserEnabled;
-        if (block instanceof HopperBlock) return config.hopperEnabled;
-        if (block instanceof ShulkerBoxBlock) return config.shulkerBoxEnabled;
+        // Modded blocks extending vanilla classes — check by inheritance.
+        for (Map.Entry<Predicate<Block>, ConfigToggle> rule : FALLBACK_TOGGLES.entrySet()) {
+            if (rule.getKey().test(block)) return rule.getValue().enabled(config);
+        }
 
         return true;
     }

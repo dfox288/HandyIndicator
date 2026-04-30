@@ -34,7 +34,7 @@ import java.util.List;
 import java.util.Map;
 
 @Mixin(BlockStateModelSet.class)
-public class BlockModelShaperMixin {
+public class BlockStateModelSetMixin {
 
     @Inject(method = "<init>(Ljava/util/Map;Lnet/minecraft/client/renderer/block/dispatch/BlockStateModel;)V", at = @At("TAIL"))
     private void handyindicator$onInit(Map<BlockState, BlockStateModel> map, BlockStateModel missingModel, CallbackInfo ci) {

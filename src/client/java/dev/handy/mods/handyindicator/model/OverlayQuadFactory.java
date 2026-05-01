@@ -342,9 +342,15 @@ public final class OverlayQuadFactory {
         // cullface: use the cullface direction for the BakedQuad's direction field
         Direction quadDir = cullface != null ? cullface : face;
 
-        // MaterialInfo handles sprite + tinting; color is applied by the block color provider
+        // MaterialInfo handles sprite + tinting; color is applied by the block color provider.
+        // Using sprite.transparency() (was Transparency.TRANSLUCENT) routes us into SOLID/CUTOUT
+        // where the indicator's RGB-only 1×1 atlas sprite actually renders. The earlier hardcoded
+        // TRANSLUCENT routing put us into a translucent-sort bucket that discarded our quads,
+        // because the sprite has no alpha channel for the blend pipeline to work with.
+        // shade=false matches the 26.1 working baseline; shade=true sent us through a face-light
+        // multiply path that combined with the bad routing to produce nothing visible.
         var matInfo = net.minecraft.client.resources.model.geometry.BakedQuad.MaterialInfo
-                .of(new Material.Baked(sprite, false), Transparency.TRANSLUCENT, tintIndex, true, 0);
+                .of(new Material.Baked(sprite, false), sprite.contents().transparency(), tintIndex, false, 0);
 
         return new BakedQuad(p0, p1, p2, p3, uv0, uv1, uv2, uv3, quadDir, matInfo);
     }

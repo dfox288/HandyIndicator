@@ -15,6 +15,7 @@ public class OverlayBlockModelPart implements BlockStateModelPart {
     private final Map<Direction, List<BakedQuad>> culledQuads;
     private final List<BakedQuad> unculledQuads;
     private final Material.Baked particleMaterial;
+    private final int materialFlags;
 
     public OverlayBlockModelPart(List<BakedQuad> quads, Material.Baked particleMaterial, boolean useCullface) {
         this.particleMaterial = particleMaterial;
@@ -31,6 +32,18 @@ public class OverlayBlockModelPart implements BlockStateModelPart {
         } else {
             unculledQuads.addAll(quads);
         }
+
+        // Material flags must be the OR of every quad's MaterialInfo.flags() —
+        // this is what vanilla SimpleModelWrapper does via QuadCollection. Returning
+        // a flat 0 here was the 26.2-snapshot-5 regression: SectionCompiler uses
+        // materialFlags to decide which RenderType buckets to allocate, and a 0
+        // result tells it "nothing to render" so the overlay is collected but never
+        // submitted to the GPU.
+        int flags = 0;
+        for (BakedQuad q : quads) {
+            flags |= q.materialInfo().flags();
+        }
+        this.materialFlags = flags;
     }
 
     @Override
@@ -54,6 +67,6 @@ public class OverlayBlockModelPart implements BlockStateModelPart {
 
     @Override
     public int materialFlags() {
-        return 0;
+        return materialFlags;
     }
 }

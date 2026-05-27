@@ -1,6 +1,6 @@
 # Handy Indicator
 
-A Fabric mod for Minecraft 26.1.x that shows a subtle visual indicator on container blocks when they contain items.
+A Fabric mod that shows a subtle visual indicator on container blocks when they contain items. Stable builds target Minecraft 26.1.x; the **beta channel** tracks the 26.2 prerelease cycle (currently 26.2-pre-1).
 
 Stop right-clicking every hopper to check if it's running. A colored crown sits on top of every loaded container in your item sorter — hoppers, droppers, furnaces, barrels, crafters. No comparators needed.
 
@@ -28,7 +28,7 @@ Stop right-clicking every hopper to check if it's running. A colored crown sits 
 - [ModMenu](https://modrinth.com/mod/modmenu) — adds a Configure button in the mod list
 - [YACL](https://modrinth.com/mod/yacl) — powers the in-game config screen
 
-Without these, all features work with sensible defaults. You can also edit `config/container-indicator.json` manually.
+Without these, all features work with sensible defaults. You can also edit `config/handyindicator.json` manually.
 
 ## Installation
 

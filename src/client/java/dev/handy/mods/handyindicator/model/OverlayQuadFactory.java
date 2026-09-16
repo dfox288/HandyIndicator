@@ -347,10 +347,18 @@ public final class OverlayQuadFactory {
         // where the indicator's RGB-only 1×1 atlas sprite actually renders. The earlier hardcoded
         // TRANSLUCENT routing put us into a translucent-sort bucket that discarded our quads,
         // because the sprite has no alpha channel for the blend pipeline to work with.
-        // shade=false matches the 26.1 working baseline; shade=true sent us through a face-light
-        // multiply path that combined with the bad routing to produce nothing visible.
+        // No face shading — matches the 26.1 working baseline; shading by the real face sent us
+        // through a face-light multiply path that combined with the bad routing to produce
+        // nothing visible.
+        //
+        // 26.3-snapshot-7 replaced MaterialInfo's `boolean shade` with a nullable
+        // `Direction shadeDirectionOverride`: null shades by the quad's own face (the old
+        // shade=true), and a non-null direction forces that face's brightness. The old
+        // shade=false branch resolved to CardinalLighting.up(), which is exactly
+        // byFace(Direction.UP) — so Direction.UP reproduces the previous behaviour.
         var matInfo = net.minecraft.client.resources.model.geometry.BakedQuad.MaterialInfo
-                .of(new Material.Baked(sprite, false), sprite.contents().transparency(), tintIndex, false, 0);
+                .of(new Material.Baked(sprite, false), sprite.contents().transparency(), tintIndex,
+                        Direction.UP, 0);
 
         return new BakedQuad(p0, p1, p2, p3, uv0, uv1, uv2, uv3, quadDir, matInfo);
     }

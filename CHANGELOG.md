@@ -2,11 +2,11 @@
 
 ## 2.4.0
 
-Stable release for **Minecraft 26.3**.
+Updated for the **Minecraft 26.3** release.
 
-- Built against Minecraft **26.3**, Fabric Loader **0.19.5**, Fabric API **0.160.6+26.3** and YACL **3.9.6+26.3-fabric**.
-- **Indicator overlays keep their even, full-brightness look.** 26.3 changed how a model face picks its shading, and the indicator quads have been updated to keep opting out of directional face shading — without this they would have darkened on the sides and bottoms of containers.
-- **The settings screen is opened through ModMenu** (`21.0.0-beta.1` or newer for 26.3), with YACL installed. Without them the mod runs fine on its saved settings; you just cannot change them in-game.
+- Requires Fabric API for 26.3.
+- Container indicators keep their even brightness on every side of the block.
+- To change settings in-game, install **ModMenu** and **YACL** (both have 26.3 versions). Without them the mod still works with its saved settings.
 
 ## 2.3.0-beta.1
 
